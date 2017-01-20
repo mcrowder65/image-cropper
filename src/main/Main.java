@@ -11,6 +11,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		try {
+			 System.out.print("push test");
 	         System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
 	         
 	         Mat source = Highgui.imread("download.png",
