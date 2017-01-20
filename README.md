@@ -11,4 +11,4 @@ click edit, then workspace, then pick OpenCV (in our project) for the native lib
 Right click on image-cropper in project/package explorer -> Build path -> configure build path..
 
  
-Under libraries, click add library, then add library, User library, then OpenCV
+Under libraries, click add library, User library, then OpenCV
