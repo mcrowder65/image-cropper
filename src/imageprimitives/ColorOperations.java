@@ -5,6 +5,11 @@ import org.opencv.imgproc.Imgproc;
 
 public class ColorOperations {
 
+	/**
+	 * Returns the image as grayscale.
+	 * @param input
+	 * @return Returns a grayscale image.
+	 */
 	public static Mat toGrayscale(Mat input)
 	{
 		Mat output = new Mat();
