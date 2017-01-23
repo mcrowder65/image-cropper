@@ -34,18 +34,22 @@ public class ImageSizeOperations {
 	 *            int
 	 * @param desiredHeight
 	 *            int
-	 * @return boolean indicating whether or not the image was resized.
+	 * @return Mat Returns a Mat object if operation succeeded
+	 * @throws Exception
+	 *             Throws a generic exception if you try to resize the image to
+	 *             the same dimensions
 	 */
-	public static boolean resizeImage(Mat image, String newImageName, int desiredWidth, int desiredHeight) {
+	public static Mat resizeImage(Mat image, String newImageName, int desiredWidth, int desiredHeight)
+			throws Exception {
 		Size size = image.size();
 		Size desiredSize = new Size(desiredWidth, desiredHeight);
 		if (size.width != desiredWidth || size.height != desiredHeight) {
 			Mat destination = new Mat();
 			Imgproc.resize(image, destination, desiredSize);
 			Highgui.imwrite(newImageName, destination);
-			return true;
+			return destination;
 		}
 
-		return false;
+		throw new Exception("You can't resize the image to the same dimensions!");
 	}
 }
