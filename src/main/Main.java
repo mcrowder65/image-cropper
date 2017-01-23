@@ -11,7 +11,6 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-
 			Mat source = Highgui.imread("testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
 			Mat destination = new Mat(source.rows(), source.cols(), source.type());
 			Imgproc.GaussianBlur(source, destination, new Size(45, 45), 0);
