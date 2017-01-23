@@ -15,6 +15,7 @@ public class ColorOperations {
 		Mat output = new Mat();
 		Imgproc.cvtColor(input, output, Imgproc.COLOR_RGB2GRAY);
 		return output;
+
 	}
 
 	public static Mat histogramStretch(Mat input) {
@@ -28,5 +29,6 @@ public class ColorOperations {
 		}
 
 		return output;
+
 	}
 }
