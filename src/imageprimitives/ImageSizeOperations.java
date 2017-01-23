@@ -10,6 +10,7 @@ public class ImageSizeOperations {
 
 	/**
 	 * Returns a crop of the input image.
+	 * 
 	 * @param input
 	 * @param minx
 	 * @param miny
@@ -17,12 +18,12 @@ public class ImageSizeOperations {
 	 * @param maxy
 	 * @return Returns the new cropped image.
 	 */
-	public static Mat CropToRect(Mat input, int minx, int miny, int maxx, int maxy)
-	{
-		Rect rectCrop = new Rect(minx, miny, maxx, maxy );
+	public static Mat CropToRect(Mat input, int minx, int miny, int maxx, int maxy) {
+		Rect rectCrop = new Rect(minx, miny, maxx, maxy);
 		Mat output = new Mat(input, rectCrop);
 		return output;
 	}
+
 	/**
 	 * 
 	 * @param image
