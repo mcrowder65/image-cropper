@@ -6,6 +6,8 @@ import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
+import imageprimitives.Resize;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -21,6 +23,11 @@ public class Main {
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
+        
+        
+        Mat resizeMe = Highgui.imread("download.png", Highgui.CV_LOAD_IMAGE_COLOR);
+        
+        Resize.resizeImage(resizeMe, "resized.jpg", 600, 600);
 
 		/*
 		 * try {
@@ -53,7 +60,10 @@ public class Main {
 
 		} catch (Exception e) {
 			System.out.println("error: " + e.getMessage());
-		}
+        }
+        
+        
+
 
 	}
 
