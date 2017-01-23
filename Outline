@@ -1,0 +1,9 @@
+1. Reduce Size of image
+2. Histogram Stretch (?) contrast?
+2.5. Convert img to grayscale?
+3. Binary img - thresholding
+4. Median Filter
+5. Connected Components
+6. Crop to get big outline
+7. Connected components on big outlines - using seeds - left and right (in case there is a seam)
+8. Crop one or both sides (if there is a seam)
