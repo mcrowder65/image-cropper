@@ -15,5 +15,20 @@ public class ColorOperations {
 		Mat output = new Mat();
 		Imgproc.cvtColor(input, output, Imgproc.COLOR_RGB2GRAY);
 		return output;
+
+	}
+
+	public static Mat histogramStretch(Mat input) {
+		Mat output = new Mat();
+		try {
+
+			Imgproc.equalizeHist(input, output);
+
+		} catch (Exception e) {
+			System.out.println("error: " + e.getMessage());
+		}
+
+		return output;
+
 	}
 }
