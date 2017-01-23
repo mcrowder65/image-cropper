@@ -17,4 +17,9 @@ public class ColorOperations {
 		return output;
 	}
 
+	public static Mat threshold(Mat input) {
+		Mat output = new Mat();
+
+		return output;
+	}
 }
