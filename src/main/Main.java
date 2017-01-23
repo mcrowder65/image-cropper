@@ -6,7 +6,7 @@ import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
-import generic.Tools;
+import imageprimitives.Resize;
 
 public class Main {
 
@@ -19,10 +19,6 @@ public class Main {
 			Mat destination = new Mat(source.rows(), source.cols(), source.type());
 			Imgproc.GaussianBlur(source, destination, new Size(45, 45), 0);
 			Highgui.imwrite("Gaussian45.jpg", destination);
-			
-			
-			
-			
 
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
@@ -44,7 +40,7 @@ public class Main {
 
 		Mat resizeMe = Highgui.imread("download.png", Highgui.CV_LOAD_IMAGE_COLOR);
 
-		Tools.resizeImage(resizeMe, "resized.jpg", 600, 600);
+		Resize.resizeImage(resizeMe, "resized.jpg", 600, 600);
 	}
 
 }
