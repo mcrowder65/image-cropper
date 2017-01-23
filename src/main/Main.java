@@ -17,6 +17,10 @@ public class Main {
 			Mat destination = new Mat(source.rows(), source.cols(), source.type());
 			Imgproc.GaussianBlur(source, destination, new Size(45, 45), 0);
 			Highgui.imwrite("Gaussian45.jpg", destination);
+			
+			
+			
+			
 
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
