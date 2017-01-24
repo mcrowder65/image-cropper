@@ -34,7 +34,8 @@ public class ColorOperations {
 
 	public static Mat threshold(Mat input) {
 		Mat output = new Mat();
-
+		Imgproc.adaptiveThreshold(input, output, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 3, 0);
 		return output;
 	}
+
 }
