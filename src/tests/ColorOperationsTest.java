@@ -16,8 +16,15 @@ public class ColorOperationsTest {
 	}
 
 	@Test
+	public void grayscaleTest() {
+		Mat source = Highgui.imread("testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
+		Mat dest = ColorOperations.toGrayscale(source);
+		Highgui.imwrite("grayscaleTest.jpg", dest);
+	}
+
+	@Test
 	public void thresholdTest() {
-		Mat source = Highgui.imread("testImage1.jpg", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+		Mat source = Highgui.imread("testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
 		Mat dest = ColorOperations.threshold(source);
 		Highgui.imwrite("thresholdTest.jpg", dest);
 	}

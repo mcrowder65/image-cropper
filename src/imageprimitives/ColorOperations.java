@@ -32,9 +32,18 @@ public class ColorOperations {
 
 	}
 
+	/**
+	 * Creates an image that is thresholded to black or white. First, the image
+	 * is converted to grayscale, then an adaptive threshold is applied.
+	 * 
+	 * @param input
+	 * @return
+	 */
 	public static Mat threshold(Mat input) {
 		Mat output = new Mat();
-		Imgproc.adaptiveThreshold(input, output, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 3, 0);
+		output = ColorOperations.toGrayscale(input);
+
+		Imgproc.adaptiveThreshold(output, output, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 3, 0);
 		return output;
 	}
 
