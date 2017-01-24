@@ -19,7 +19,8 @@ public class ImageSizeOperations {
 	 * @return Returns the new cropped image.
 	 */
 	public static Mat CropToRect(Mat input, int minx, int miny, int maxx, int maxy) {
-		Rect rectCrop = new Rect(minx, miny, maxx, maxy);
+		Rect rectCrop = new Rect(minx, miny, maxx - minx, maxy - miny);
+
 		Mat output = new Mat(input, rectCrop);
 		return output;
 	}

@@ -1,5 +1,9 @@
 package tests;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.opencv.core.Core;
@@ -16,17 +20,25 @@ public class ColorOperationsTest {
 	}
 
 	@Test
-	public void grayscaleTest() {
+	public void grayscaleTest() throws IOException {
+		String path = "testImages/grayscaleTest.jpg";
+		Path fileToDeletePath = Paths.get(path);
+		java.nio.file.Files.deleteIfExists(fileToDeletePath);
+
 		Mat source = Highgui.imread("testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
 		Mat dest = ColorOperations.toGrayscale(source);
-		Highgui.imwrite("grayscaleTest.jpg", dest);
+		Highgui.imwrite(path, dest);
 	}
 
 	@Test
-	public void thresholdTest() {
+	public void thresholdTest() throws IOException {
+		String path = "testImages/thresholdTest.jpg";
+		Path fileToDeletePath = Paths.get(path);
+		java.nio.file.Files.deleteIfExists(fileToDeletePath);
+
 		Mat source = Highgui.imread("testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
 		Mat dest = ColorOperations.threshold(source);
-		Highgui.imwrite("thresholdTest.jpg", dest);
+		Highgui.imwrite(path, dest);
 	}
 
 }
