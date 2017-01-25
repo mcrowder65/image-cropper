@@ -7,9 +7,11 @@ public class NeighborhoodOperations {
 
 	/**
 	 * @param k
-	 *            k is kernal size that we want to blur by
+	 *            int - k is kernel size that we want to blur by
 	 * @param source
+	 *            Mat
 	 * @param destination
+	 *            Mat
 	 */
 	static Mat medianBlur(int k, Mat source) {
 		Mat destination = new Mat();
