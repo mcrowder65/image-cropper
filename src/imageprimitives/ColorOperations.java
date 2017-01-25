@@ -9,7 +9,8 @@ public class ColorOperations {
 	 * Returns the image as grayscale.
 	 * 
 	 * @param input
-	 * @return Returns a grayscale image.
+	 *            Mat
+	 * @return Returns a Mat grayscale image
 	 */
 	public static Mat toGrayscale(Mat input) {
 		Mat output = new Mat();
@@ -18,6 +19,13 @@ public class ColorOperations {
 
 	}
 
+	/**
+	 * Histogram streches
+	 * 
+	 * @param input
+	 *            Mat
+	 * @return Mat
+	 */
 	public static Mat histogramStretch(Mat input) {
 		Mat output = new Mat();
 		try {
@@ -37,7 +45,8 @@ public class ColorOperations {
 	 * is converted to grayscale, then an adaptive threshold is applied.
 	 * 
 	 * @param input
-	 * @return
+	 *            Mat
+	 * @return Mat
 	 */
 	public static Mat threshold(Mat input) {
 		Mat output = new Mat();

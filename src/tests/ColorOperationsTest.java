@@ -1,6 +1,7 @@
 package tests;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -23,7 +24,7 @@ public class ColorOperationsTest {
 	public void grayscaleTest() throws IOException {
 		String path = "testImages/grayscaleTest.jpg";
 		Path fileToDeletePath = Paths.get(path);
-		java.nio.file.Files.deleteIfExists(fileToDeletePath);
+		Files.deleteIfExists(fileToDeletePath);
 
 		Mat source = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
 		Mat dest = ColorOperations.toGrayscale(source);
@@ -34,7 +35,7 @@ public class ColorOperationsTest {
 	public void thresholdTest() throws IOException {
 		String path = "testImages/thresholdTest.jpg";
 		Path fileToDeletePath = Paths.get(path);
-		java.nio.file.Files.deleteIfExists(fileToDeletePath);
+		Files.deleteIfExists(fileToDeletePath);
 
 		Mat source = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
 		Mat dest = ColorOperations.threshold(source);

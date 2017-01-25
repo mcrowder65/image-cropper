@@ -7,11 +7,13 @@ public class NeighborhoodOperations {
 
 	/**
 	 * @param k
-	 *            k is kernal size that we want to blur by
+	 *            int - k is kernel size that we want to blur by
 	 * @param source
+	 *            Mat
 	 * @param destination
+	 *            Mat
 	 */
-	static Mat medianBlur(int k, Mat source) {
+	public static Mat medianBlur(int k, Mat source) {
 		Mat destination = new Mat();
 		try {
 
@@ -22,6 +24,29 @@ public class NeighborhoodOperations {
 		}
 
 		return destination;
+	}
+
+	/**
+	 * Connected component <br>
+	 * 
+	 * Push s onto stack, S <br>
+	 * While S is not empty <br>
+	 * --- Pop S to get pixel p<br>
+	 * --- if p not in L (not visited/marked) <br>
+	 * ------ add p to Cs <br>
+	 * ------ add p to L (add to marked list L) <br>
+	 * ------ For each of p's 4-connected neighbors, <br>
+	 * ---------- if q has brightness value < t <br>
+	 * -------------- push q onto S<br>
+	 * Output Cs
+	 * 
+	 * @param source
+	 *            Mat
+	 * @return Mat
+	 */
+	static Mat connectedComponents(Mat source) {
+
+		return source;
 	}
 
 }
