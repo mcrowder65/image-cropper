@@ -25,7 +25,7 @@ public class ImageSizeOperationsTest {
 		Path fileToDeletePath = Paths.get(path);
 		java.nio.file.Files.deleteIfExists(fileToDeletePath);
 
-		Mat source = Highgui.imread("testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
+		Mat source = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
 		Mat dest = ImageSizeOperations.CropToRect(source, source.width() / 4, source.height() / 4, source.width() / 2,
 				source.height() / 2);
 		Highgui.imwrite(path, dest);
