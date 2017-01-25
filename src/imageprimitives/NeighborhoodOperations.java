@@ -1,7 +1,11 @@
 package imageprimitives;
 
+import java.util.Stack;
+
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
+
+import generic.Pixel;
 
 public class NeighborhoodOperations {
 
@@ -44,7 +48,9 @@ public class NeighborhoodOperations {
 	 *            Mat
 	 * @return Mat
 	 */
-	static Mat connectedComponents(Mat source) {
+	public static Mat connectedComponents(Mat source) {
+		boolean[][] visited = new boolean[source.width()][source.height()];
+		Stack<Pixel> stack = new Stack();
 
 		return source;
 	}
