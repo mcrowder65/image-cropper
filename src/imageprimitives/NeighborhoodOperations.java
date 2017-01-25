@@ -1,6 +1,11 @@
 package imageprimitives;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Stack;
+
+import javax.imageio.ImageIO;
 
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
@@ -45,14 +50,18 @@ public class NeighborhoodOperations {
 	 * Output Cs
 	 * 
 	 * @param source
-	 *            Mat
-	 * @return Mat
+	 *            String
 	 */
-	public static Mat connectedComponents(Mat source) {
-		boolean[][] visited = new boolean[source.width()][source.height()];
-		Stack<Pixel> stack = new Stack();
+	public static void connectedComponents(String source) {
 
-		return source;
+		Stack<Pixel> stack = new Stack();
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(new File(source));
+		} catch (IOException e) {
+			System.out.println(e.toString());
+		}
+		boolean[][] visited = new boolean[img.getWidth()][img.getHeight()];
 	}
 
 }
