@@ -8,10 +8,10 @@ public class Pixel {
 	private int y;
 	private Color color;
 
-	public Pixel(int x, int y, Color color) {
+	public Pixel(int x, int y, int rgb) {
 		this.x = x;
 		this.y = y;
-		this.color = color;
+		this.color = new Color(rgb);
 	}
 
 	public int getX() {
