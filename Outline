@@ -4,6 +4,11 @@
 3. Binary img - thresholding - Done
 4. Median Filter - Done
 5. Connected Components
+	- scan through the image in row-major order until you hit a non-zero pixel
+	- mark the pixel and color it C
+	- if this pixel has any (4 or 8)-connected neighbors that are non-zero, mark them and put them on the stack, S
+	- if S is empty, done
+	  else pop S and go to 2
 6. Crop to get big outline
 7. Connected components on big outlines - using seeds - left and right (in case there is a seam)
 8. Crop one or both sides (if there is a seam)
