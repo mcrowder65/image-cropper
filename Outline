@@ -9,6 +9,17 @@
 	- if this pixel has any (4 or 8)-connected neighbors that are non-zero, mark them and put them on the stack, S
 	- if S is empty, done
 	  else pop S and go to 2
+    PSEUDO-CODE:
+    	Push s onto stack, S
+    	While S is not empty
+    		Pop S to get pixel p
+    		If p not in L (not visited/marked)
+    			Add p to Cs
+    			Add p to L (Add to marked List L)
+    			For each of p's 4-connected neighbors, q
+    				If q has brightness value < t
+    				   Push q onto S
+    	Output Cs
 6. Crop to get big outline
 7. Connected components on big outlines - using seeds - left and right (in case there is a seam)
 8. Crop one or both sides (if there is a seam)
