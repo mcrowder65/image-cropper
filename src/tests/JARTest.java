@@ -1,7 +1,5 @@
 package tests;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 import org.opencv.core.Core;
 import org.opencv.core.Scalar;
