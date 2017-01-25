@@ -13,7 +13,7 @@ public class NeighborhoodOperations {
 	 * @param destination
 	 *            Mat
 	 */
-	static Mat medianBlur(int k, Mat source) {
+	public static Mat medianBlur(int k, Mat source) {
 		Mat destination = new Mat();
 		try {
 
