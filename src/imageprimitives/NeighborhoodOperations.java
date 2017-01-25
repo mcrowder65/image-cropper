@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
+import generic.ImageComponent;
 import generic.Pixel;
 
 public class NeighborhoodOperations {
@@ -54,7 +55,7 @@ public class NeighborhoodOperations {
 	 */
 	public static void connectedComponents(String source) {
 
-		Stack<Pixel> stack = new Stack();
+		Stack<Pixel> stack = new Stack<Pixel>();
 		BufferedImage img = null;
 		try {
 			img = ImageIO.read(new File(source));
@@ -65,8 +66,10 @@ public class NeighborhoodOperations {
 		Pixel p = new Pixel(img.getWidth() / 2, img.getHeight() / 2,
 				img.getRGB(img.getWidth() / 2, img.getHeight() / 2));
 		stack.push(p);
+		ImageComponent component = new ImageComponent();
 		while (!stack.isEmpty()) {
 			Pixel pRoot = stack.pop();
+
 			// north
 			addToStack(getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() - 1), stack);
 
