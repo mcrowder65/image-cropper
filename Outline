@@ -1,8 +1,8 @@
 1. Reduce Size of image - Done
 2. Histogram Stretch (?) contrast? - Done
 2.5. Convert img to grayscale? - Done
-3. Binary img - thresholding
-4. Median Filter - done
+3. Binary img - thresholding - Done
+4. Median Filter - Done
 5. Connected Components
 6. Crop to get big outline
 7. Connected components on big outlines - using seeds - left and right (in case there is a seam)
