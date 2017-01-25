@@ -1,6 +1,7 @@
 package tests;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -23,7 +24,7 @@ public class ImageSizeOperationsTest {
 	public void CropToRectTest() throws IOException {
 		String path = "testImages/cropToRectTest.jpg";
 		Path fileToDeletePath = Paths.get(path);
-		java.nio.file.Files.deleteIfExists(fileToDeletePath);
+		Files.deleteIfExists(fileToDeletePath);
 
 		Mat source = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
 		Mat dest = ImageSizeOperations.CropToRect(source, source.width() / 4, source.height() / 4, source.width() / 2,
