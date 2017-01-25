@@ -67,71 +67,33 @@ public class NeighborhoodOperations {
 		stack.push(p);
 		while (!stack.isEmpty()) {
 			Pixel pRoot = stack.pop();
-			addToStack(getNorthP(pRoot, img), stack);
-			addToStack(getSouthP(pRoot, img), stack);
-			addToStack(getEastP(pRoot, img), stack);
-			addToStack(getWestP(pRoot, img), stack);
+			// north
+			addToStack(getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() - 1), stack);
+
+			// south
+			addToStack(getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() + 1), stack);
+
+			// west
+			addToStack(getNeighbor(pRoot, img, visited, pRoot.getX() - 1, pRoot.getY()), stack);
+
+			// east
+			addToStack(getNeighbor(pRoot, img, visited, pRoot.getX() + 1, pRoot.getY()), stack);
 
 		}
 
 	}
 
-	private static void addToStack(Pixel p, Stack s) {
+	private static void addToStack(Pixel p, Stack<Pixel> s) {
 		if (p != null) {
 			s.push(p);
 		}
 	}
 
-	private static Pixel getNorthP(Pixel p, BufferedImage img) {
-		int newY = p.getY() - 1;
-		int newX = p.getX();
-
-		if (newY < 0) {
+	private static Pixel getNeighbor(Pixel p, BufferedImage img, boolean[][] visited, int x, int y) {
+		if (y < 0 || y > img.getHeight() - 1 || x < 0 || x > img.getWidth() - 1
+				|| p.getColor().getRGB() != img.getRGB(x, y) || visited[x][y]) {
 			return null;
 		}
-		if (p.getColor().getRGB() != img.getRGB(newX, newY)) {
-			return null;
-		}
-		return new Pixel(newX, newY, img.getRGB(newX, newY));
+		return new Pixel(x, y, img.getRGB(x, y));
 	}
-
-	private static Pixel getSouthP(Pixel p, BufferedImage img) {
-		int newY = p.getY() + 1;
-		int newX = p.getX();
-
-		if (newY > img.getHeight() - 1) {
-			return null;
-		}
-		if (p.getColor().getRGB() != img.getRGB(newX, newY)) {
-			return null;
-		}
-		return new Pixel(newX, newY, img.getRGB(newX, newY));
-	}
-
-	private static Pixel getWestP(Pixel p, BufferedImage img) {
-		int newY = p.getY();
-		int newX = p.getX() - 1;
-
-		if (newX < 0) {
-			return null;
-		}
-		if (p.getColor().getRGB() != img.getRGB(newX, newY)) {
-			return null;
-		}
-		return new Pixel(newX, newY, img.getRGB(newX, newY));
-	}
-
-	private static Pixel getEastP(Pixel p, BufferedImage img) {
-		int newY = p.getY();
-		int newX = p.getX() + 1;
-
-		if (newX > img.getWidth() - 1) {
-			return null;
-		}
-		if (p.getColor().getRGB() != img.getRGB(newX, newY)) {
-			return null;
-		}
-		return new Pixel(newX, newY, img.getRGB(newX, newY));
-	}
-
 }
