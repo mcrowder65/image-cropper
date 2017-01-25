@@ -25,7 +25,7 @@ public class ColorOperationsTest {
 		Path fileToDeletePath = Paths.get(path);
 		java.nio.file.Files.deleteIfExists(fileToDeletePath);
 
-		Mat source = Highgui.imread("testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
+		Mat source = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
 		Mat dest = ColorOperations.toGrayscale(source);
 		Highgui.imwrite(path, dest);
 	}
@@ -36,7 +36,7 @@ public class ColorOperationsTest {
 		Path fileToDeletePath = Paths.get(path);
 		java.nio.file.Files.deleteIfExists(fileToDeletePath);
 
-		Mat source = Highgui.imread("testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
+		Mat source = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
 		Mat dest = ColorOperations.threshold(source);
 		Highgui.imwrite(path, dest);
 	}
