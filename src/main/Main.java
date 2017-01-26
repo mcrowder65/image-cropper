@@ -31,7 +31,8 @@ public class Main {
 			destination = ColorOperations.histogramStretch(destination);
 			destination = ColorOperations.threshold(destination);
 			destination = NeighborhoodOperations.medianBlur(5, destination);
-			destination = NeighborhoodOperations.connectedComponents(destination);
+			// destination =
+			// NeighborhoodOperations.connectedComponents(destination);
 
 			// TODO: Create connected component
 			// TODO: Mask, aka Crop
