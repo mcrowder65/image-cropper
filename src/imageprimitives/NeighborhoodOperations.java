@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
+import generic.ImageComponent;
 import generic.Pixel;
 
 public class NeighborhoodOperations {
@@ -54,7 +55,7 @@ public class NeighborhoodOperations {
 	 */
 	public static void connectedComponents(String source) {
 
-		Stack<Pixel> stack = new Stack();
+		Stack<Pixel> stack = new Stack<Pixel>();
 		BufferedImage img = null;
 		try {
 			img = ImageIO.read(new File(source));
@@ -65,73 +66,48 @@ public class NeighborhoodOperations {
 		Pixel p = new Pixel(img.getWidth() / 2, img.getHeight() / 2,
 				img.getRGB(img.getWidth() / 2, img.getHeight() / 2));
 		stack.push(p);
+		ImageComponent component = new ImageComponent();
 		while (!stack.isEmpty()) {
 			Pixel pRoot = stack.pop();
-			addToStack(getNorthP(pRoot, img), stack);
-			addToStack(getSouthP(pRoot, img), stack);
-			addToStack(getEastP(pRoot, img), stack);
-			addToStack(getWestP(pRoot, img), stack);
+
+			Pixel north = getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() - 1);
+			if (north != null) {
+				stack.push(north);
+				visited[north.getX()][north.getY()] = true;
+			}
+
+			// south
+			Pixel south = getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() + 1);
+			if (south != null) {
+				stack.push(south);
+				visited[south.getX()][south.getY()] = true;
+			}
+
+			// west
+			Pixel west = getNeighbor(pRoot, img, visited, pRoot.getX() - 1, pRoot.getY());
+			if (west != null) {
+				stack.push(west);
+				visited[west.getX()][west.getY()] = true;
+			}
+
+			// east
+			Pixel east = getNeighbor(pRoot, img, visited, pRoot.getX() + 1, pRoot.getY());
+			if (east != null) {
+				stack.push(east);
+				visited[east.getX()][east.getY()] = true;
+			}
 
 		}
 
 	}
 
-	private static void addToStack(Pixel p, Stack s) {
-		if (p != null) {
-			s.push(p);
+	private static Pixel getNeighbor(Pixel p, BufferedImage img, boolean[][] visited, int x, int y) {
+
+		// Bounds check and color check.
+		if (y < 0 || y > img.getHeight() - 1 || x < 0 || x > img.getWidth() - 1
+				|| p.getColor().getRGB() != img.getRGB(x, y) || visited[x][y]) {
+			return null;
 		}
+		return new Pixel(x, y, img.getRGB(x, y));
 	}
-
-	private static Pixel getNorthP(Pixel p, BufferedImage img) {
-		int newY = p.getY() - 1;
-		int newX = p.getX();
-
-		if (newY < 0) {
-			return null;
-		}
-		if (p.getColor().getRGB() != img.getRGB(newX, newY)) {
-			return null;
-		}
-		return new Pixel(newX, newY, img.getRGB(newX, newY));
-	}
-
-	private static Pixel getSouthP(Pixel p, BufferedImage img) {
-		int newY = p.getY() + 1;
-		int newX = p.getX();
-
-		if (newY > img.getHeight() - 1) {
-			return null;
-		}
-		if (p.getColor().getRGB() != img.getRGB(newX, newY)) {
-			return null;
-		}
-		return new Pixel(newX, newY, img.getRGB(newX, newY));
-	}
-
-	private static Pixel getWestP(Pixel p, BufferedImage img) {
-		int newY = p.getY();
-		int newX = p.getX() - 1;
-
-		if (newX < 0) {
-			return null;
-		}
-		if (p.getColor().getRGB() != img.getRGB(newX, newY)) {
-			return null;
-		}
-		return new Pixel(newX, newY, img.getRGB(newX, newY));
-	}
-
-	private static Pixel getEastP(Pixel p, BufferedImage img) {
-		int newY = p.getY();
-		int newX = p.getX() + 1;
-
-		if (newX > img.getWidth() - 1) {
-			return null;
-		}
-		if (p.getColor().getRGB() != img.getRGB(newX, newY)) {
-			return null;
-		}
-		return new Pixel(newX, newY, img.getRGB(newX, newY));
-	}
-
 }
