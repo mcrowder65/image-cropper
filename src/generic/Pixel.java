@@ -8,6 +8,12 @@ public class Pixel {
 	private int y;
 	private Color color;
 
+	public Pixel(Pixel temp) {
+		this.x = temp.x;
+		this.y = temp.y;
+		this.color = new Color(temp.getColor().getRGB());
+	}
+
 	public Pixel(int x, int y, int rgb) {
 		this.x = x;
 		this.y = y;
@@ -38,4 +44,7 @@ public class Pixel {
 		this.color = color;
 	}
 
+	public int toInteger() {
+		return (int) (color.getRed() * 255) << 16 | (int) (color.getGreen() * 255) << 8 | (int) (color.getBlue() * 255);
+	}
 }

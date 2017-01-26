@@ -24,17 +24,18 @@ public class Main {
 				return;
 			}
 
-			Mat source = Highgui.imread("images/" + inputImageName, Highgui.CV_LOAD_IMAGE_COLOR);
+			Mat source = Highgui.imread("testImages/" + inputImageName, Highgui.CV_LOAD_IMAGE_COLOR);
 			Mat destination = source;
 
 			// Maybe TODO? Reduce image size
 			destination = ColorOperations.histogramStretch(destination);
 			destination = ColorOperations.threshold(destination);
 			destination = NeighborhoodOperations.medianBlur(5, destination);
+			// destination =
+			// NeighborhoodOperations.connectedComponents(destination);
 
 			// TODO: Create connected component
 			// TODO: Mask, aka Crop
-			// TODO:
 
 			Highgui.imwrite("images/" + outputImageName, destination);
 

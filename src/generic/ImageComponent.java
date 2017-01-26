@@ -1,26 +1,22 @@
 package generic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ImageComponent {
 
-	private List<Pixel> pixels;
+	private Pixel[][] pixels;
 
-	public ImageComponent() {
-		pixels = new ArrayList<Pixel>();
+	public ImageComponent(int width, int height) {
+		pixels = new Pixel[width][height];
 	}
 
-	public void addPixel(Pixel p) {
-		pixels.add(p);
+	public void setPixel(Pixel value) {
+		this.pixels[value.getX()][value.getY()] = new Pixel(value);
 	}
 
-	public List<Pixel> getPixels() {
+	public Pixel getPixel(int x, int y) {
+		return this.pixels[x][y];
+	}
+
+	public Pixel[][] getPixels() {
 		return pixels;
 	}
-
-	public void setPixels(List<Pixel> pixels) {
-		this.pixels = pixels;
-	}
-
 }
