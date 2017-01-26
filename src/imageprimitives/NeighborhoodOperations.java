@@ -69,11 +69,11 @@ public class NeighborhoodOperations {
 		// TODO:make sure p is "on" - this should be done via a sampling
 		// function
 		stack.push(p);
-		ImageComponent component = new ImageComponent();
+		ImageComponent component = new ImageComponent(img.getWidth(), img.getHeight());
 
 		while (!stack.isEmpty()) {
 			Pixel pRoot = stack.pop();
-			component.addPixel(pRoot);
+			component.setPixel(pRoot);
 
 			Pixel north = getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() - 1);
 			if (north != null) {
@@ -81,21 +81,18 @@ public class NeighborhoodOperations {
 				visited[north.getX()][north.getY()] = true;
 			}
 
-			// south
 			Pixel south = getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() + 1);
 			if (south != null) {
 				stack.push(south);
 				visited[south.getX()][south.getY()] = true;
 			}
 
-			// west
 			Pixel west = getNeighbor(pRoot, img, visited, pRoot.getX() - 1, pRoot.getY());
 			if (west != null) {
 				stack.push(west);
 				visited[west.getX()][west.getY()] = true;
 			}
 
-			// east
 			Pixel east = getNeighbor(pRoot, img, visited, pRoot.getX() + 1, pRoot.getY());
 			if (east != null) {
 				stack.push(east);
