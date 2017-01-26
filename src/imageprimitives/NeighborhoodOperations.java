@@ -70,29 +70,40 @@ public class NeighborhoodOperations {
 		while (!stack.isEmpty()) {
 			Pixel pRoot = stack.pop();
 
-			// north
-			addToStack(getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() - 1), stack);
+			Pixel north = getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() - 1);
+			if (north != null) {
+				stack.push(north);
+				visited[north.getX()][north.getY()] = true;
+			}
 
 			// south
-			addToStack(getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() + 1), stack);
+			Pixel south = getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() + 1);
+			if (south != null) {
+				stack.push(south);
+				visited[south.getX()][south.getY()] = true;
+			}
 
 			// west
-			addToStack(getNeighbor(pRoot, img, visited, pRoot.getX() - 1, pRoot.getY()), stack);
+			Pixel west = getNeighbor(pRoot, img, visited, pRoot.getX() - 1, pRoot.getY());
+			if (west != null) {
+				stack.push(west);
+				visited[west.getX()][west.getY()] = true;
+			}
 
 			// east
-			addToStack(getNeighbor(pRoot, img, visited, pRoot.getX() + 1, pRoot.getY()), stack);
+			Pixel east = getNeighbor(pRoot, img, visited, pRoot.getX() + 1, pRoot.getY());
+			if (east != null) {
+				stack.push(east);
+				visited[east.getX()][east.getY()] = true;
+			}
 
 		}
 
-	}
-
-	private static void addToStack(Pixel p, Stack<Pixel> s) {
-		if (p != null) {
-			s.push(p);
-		}
 	}
 
 	private static Pixel getNeighbor(Pixel p, BufferedImage img, boolean[][] visited, int x, int y) {
+
+		// Bounds check and color check.
 		if (y < 0 || y > img.getHeight() - 1 || x < 0 || x > img.getWidth() - 1
 				|| p.getColor().getRGB() != img.getRGB(x, y) || visited[x][y]) {
 			return null;
