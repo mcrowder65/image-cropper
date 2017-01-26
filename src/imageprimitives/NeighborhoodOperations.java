@@ -65,10 +65,15 @@ public class NeighborhoodOperations {
 		boolean[][] visited = new boolean[img.getWidth()][img.getHeight()];
 		Pixel p = new Pixel(img.getWidth() / 2, img.getHeight() / 2,
 				img.getRGB(img.getWidth() / 2, img.getHeight() / 2));
+
+		// TODO:make sure p is "on" - this should be done via a sampling
+		// function
 		stack.push(p);
 		ImageComponent component = new ImageComponent();
+
 		while (!stack.isEmpty()) {
 			Pixel pRoot = stack.pop();
+			component.addPixel(pRoot);
 
 			Pixel north = getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() - 1);
 			if (north != null) {
