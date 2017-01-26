@@ -51,7 +51,7 @@ public class ColorOperations {
 	public static Mat threshold(Mat input) {
 		Mat output = new Mat();
 		output = ColorOperations.toGrayscale(input);
-		output = NeighborhoodOperations.medianBlur(23, output);
+		output = NeighborhoodOperations.medianBlur(203, output);
 		Imgproc.threshold(output, output, 128, 255, Imgproc.THRESH_BINARY);
 		return output;
 	}
