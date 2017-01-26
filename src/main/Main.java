@@ -34,7 +34,6 @@ public class Main {
 
 			// TODO: Create connected component
 			// TODO: Mask, aka Crop
-			// TODO:
 
 			Highgui.imwrite("images/" + outputImageName, destination);
 
