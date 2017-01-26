@@ -1,4 +1,4 @@
-package tests;
+package imageprimitives;
 
 import org.junit.Before;
 import org.junit.Test;
