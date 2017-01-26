@@ -44,4 +44,7 @@ public class Pixel {
 		this.color = color;
 	}
 
+	public int toInteger() {
+		return (int) (color.getRed() * 255) << 16 | (int) (color.getGreen() * 255) << 8 | (int) (color.getBlue() * 255);
+	}
 }
