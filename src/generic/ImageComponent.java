@@ -13,6 +13,9 @@ public class ImageComponent {
 	}
 
 	public Pixel getPixel(int x, int y) {
+		if (pixels[x][y] == null) {
+			return null;
+		}
 		return this.pixels[x][y];
 	}
 
