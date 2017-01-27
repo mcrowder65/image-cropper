@@ -1,7 +1,8 @@
 package imageprimitives;
 
-import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
+
+import generic.MatWrapper;
 
 public class ColorOperations {
 
@@ -12,9 +13,9 @@ public class ColorOperations {
 	 *            Mat
 	 * @return Returns a Mat grayscale image
 	 */
-	public static Mat toGrayscale(Mat input) {
-		Mat output = new Mat();
-		Imgproc.cvtColor(input, output, Imgproc.COLOR_RGB2GRAY);
+	public static MatWrapper toGrayscale(MatWrapper input) {
+		MatWrapper output = new MatWrapper();
+		Imgproc.cvtColor(input.mat, output.mat, input.getToGrayscaleConstant());
 		return output;
 
 	}
@@ -26,10 +27,10 @@ public class ColorOperations {
 	 *            Mat
 	 * @return Mat
 	 */
-	public static Mat histogramStretch(Mat input) {
-		Mat output = new Mat();
+	public static MatWrapper histogramStretch(MatWrapper input) {
+		MatWrapper output = new MatWrapper();
 		output = ColorOperations.toGrayscale(input);
-		Imgproc.equalizeHist(output, output);
+		Imgproc.equalizeHist(output.mat, output.mat);
 		return output;
 
 	}
@@ -42,11 +43,11 @@ public class ColorOperations {
 	 *            Mat
 	 * @return Mat
 	 */
-	public static Mat threshold(Mat input) {
-		Mat output = new Mat();
+	public static MatWrapper threshold(MatWrapper input) {
+		MatWrapper output = new MatWrapper();
 		output = ColorOperations.toGrayscale(input);
 		output = NeighborhoodOperations.medianBlur(87, output);
-		Imgproc.threshold(output, output, 128, 255, Imgproc.THRESH_BINARY);
+		Imgproc.threshold(output.mat, output.mat, 128, 255, Imgproc.THRESH_BINARY);
 		return output;
 	}
 

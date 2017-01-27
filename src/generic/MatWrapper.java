@@ -8,6 +8,11 @@ public class MatWrapper {
 	public Mat mat;
 	private MatCode code;
 
+	public MatWrapper() {
+		mat = new Mat();
+		code = MatCode.RGB;
+	}
+
 	public int getToGrayscaleConstant() {
 		switch (code) {
 		case RGB:
