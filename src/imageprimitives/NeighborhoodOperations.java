@@ -25,14 +25,7 @@ public class NeighborhoodOperations {
 	 */
 	public static Mat medianBlur(int k, Mat source) {
 		Mat destination = new Mat();
-		try {
-
-			Imgproc.medianBlur(source, destination, k);
-
-		} catch (Exception e) {
-			System.out.println("error: " + e.getMessage());
-		}
-
+		Imgproc.medianBlur(source, destination, k);
 		return destination;
 	}
 

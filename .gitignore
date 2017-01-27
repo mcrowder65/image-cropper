@@ -13,6 +13,7 @@ hs_err_pid*
 #others
 .DS_Store
 /bin/
+/testImages/
 
 .classpath
 .project
