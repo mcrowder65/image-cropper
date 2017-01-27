@@ -7,10 +7,10 @@ import java.util.Stack;
 
 import javax.imageio.ImageIO;
 
-import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
 import generic.ImageComponent;
+import generic.MatWrapper;
 import generic.Pixel;
 
 public class NeighborhoodOperations {
@@ -23,9 +23,9 @@ public class NeighborhoodOperations {
 	 * @param destination
 	 *            Mat
 	 */
-	public static Mat medianBlur(int k, Mat source) {
-		Mat destination = new Mat();
-		Imgproc.medianBlur(source, destination, k);
+	public static MatWrapper medianBlur(int k, MatWrapper source) {
+		MatWrapper destination = new MatWrapper();
+		Imgproc.medianBlur(source.mat, destination.mat, k);
 		return destination;
 	}
 

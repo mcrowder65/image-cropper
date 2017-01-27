@@ -1,9 +1,9 @@
 package main;
 
 import org.opencv.core.Core;
-import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 
+import generic.MatWrapper;
 import imageprimitives.ColorOperations;
 import imageprimitives.NeighborhoodOperations;
 
@@ -23,9 +23,10 @@ public class Main {
 				System.out.println("Error: Input cannot be the same as output.");
 				return;
 			}
-
-			Mat source = Highgui.imread("testImages/" + inputImageName, Highgui.CV_LOAD_IMAGE_COLOR);
-			Mat destination = source;
+			MatWrapper source = new MatWrapper();
+			MatWrapper destination = new MatWrapper();
+			source.mat = Highgui.imread("testImages/" + inputImageName, Highgui.CV_LOAD_IMAGE_COLOR);
+			destination.mat = source.mat;
 
 			// Maybe TODO? Reduce image size
 			destination = ColorOperations.histogramStretch(destination);
@@ -37,7 +38,7 @@ public class Main {
 			// TODO: Create connected component
 			// TODO: Mask, aka Crop
 
-			Highgui.imwrite("images/" + outputImageName, destination);
+			Highgui.imwrite("images/" + outputImageName, destination.mat);
 
 			/*
 			 * Old code stuff .... Mat destination = new Mat(source.rows(),
