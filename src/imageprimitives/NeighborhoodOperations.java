@@ -53,7 +53,7 @@ public class NeighborhoodOperations {
 	 * @param source
 	 *            String
 	 */
-	public static void connectedComponents(String source) {
+	public static ImageComponent connectedComponents(String source) {
 
 		Stack<Pixel> stack = new Stack<Pixel>();
 		BufferedImage img = null;
@@ -100,24 +100,30 @@ public class NeighborhoodOperations {
 			}
 
 		}
+		return component;
 
 	}
 
-	private static void mask(ImageComponent comp, String source) {
+	public static void mask(ImageComponent comp, String source) {
 		BufferedImage original_image = null;
-		// int[][] rgbVals = new int[][]
-
 		try {
 			original_image = ImageIO.read(new File(source));
 		} catch (IOException e) {
 			System.out.println(e.toString());
 		}
 
+		ImageWriter iw = new ImageWriter("testImages/finalImage.jpg", original_image.getWidth(),
+				original_image.getHeight());
+
 		for (int i = 0; i < original_image.getHeight(); i++) {
 			for (int j = 0; j < original_image.getWidth(); j++) {
-
+				Pixel p = comp.getPixel(i, j);
+				if (p != null) {
+					iw.setPixel(p, original_image.getRGB(i, j));
+				}
 			}
 		}
+		iw.write("jpg");
 	}
 
 	private static Pixel getNeighbor(Pixel p, BufferedImage img, boolean[][] visited, int x, int y) {

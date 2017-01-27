@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.opencv.core.Core;
 
-import imageprimitives.NeighborhoodOperations;
+import generic.ImageComponent;
 
 public class NeighborhoodOperationsTest {
 
@@ -15,7 +15,8 @@ public class NeighborhoodOperationsTest {
 
 	@Test
 	public void testConnectedComponents() {
-		NeighborhoodOperations.connectedComponents("images/download.png");
+		ImageComponent comp = NeighborhoodOperations.connectedComponents("testImages/thresholdTest.jpg");
+		NeighborhoodOperations.mask(comp, "testImages/testImage1.jpg");
 	}
 
 }
