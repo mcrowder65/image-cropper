@@ -103,6 +103,23 @@ public class NeighborhoodOperations {
 
 	}
 
+	private static void mask(ImageComponent comp, String source) {
+		BufferedImage original_image = null;
+		// int[][] rgbVals = new int[][]
+
+		try {
+			original_image = ImageIO.read(new File(source));
+		} catch (IOException e) {
+			System.out.println(e.toString());
+		}
+
+		for (int i = 0; i < original_image.getHeight(); i++) {
+			for (int j = 0; j < original_image.getWidth(); j++) {
+
+			}
+		}
+	}
+
 	private static Pixel getNeighbor(Pixel p, BufferedImage img, boolean[][] visited, int x, int y) {
 
 		// Bounds check and color check.
