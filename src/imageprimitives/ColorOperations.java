@@ -14,8 +14,12 @@ public class ColorOperations {
 	 * @return Returns a Mat grayscale image
 	 */
 	public static MatWrapper toGrayscale(MatWrapper input) {
+		if (input.isGrayscale())
+			return input;
+
 		MatWrapper output = new MatWrapper();
 		Imgproc.cvtColor(input.mat, output.mat, input.getToGrayscaleConstant());
+		output.setGrayscale(true);
 		return output;
 
 	}
