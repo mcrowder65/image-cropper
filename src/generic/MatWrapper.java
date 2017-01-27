@@ -46,6 +46,13 @@ public class MatWrapper {
 		}
 	}
 
+	/**
+	 * TESTING
+	 * 
+	 * @param row
+	 * @param col
+	 * @return
+	 */
 	public Pixel getPixel(int row, int col) {
 		Pixel pixel = new Pixel(col, row, 0);
 		double[] val = mat.get(row, col);

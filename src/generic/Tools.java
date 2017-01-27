@@ -12,6 +12,12 @@ import org.opencv.core.Mat;
 public class Tools {
 	private static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
 
+	/**
+	 * TESTING
+	 * 
+	 * @param mat
+	 * @param name
+	 */
 	public static void DumpMat(Mat mat, String name) {
 		double[] d;
 		StringBuilder strBld = new StringBuilder();
