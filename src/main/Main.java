@@ -29,8 +29,10 @@ public class Main {
 			destination.mat = source.mat;
 
 			// Maybe TODO? Reduce image size
-			destination = ColorOperations.histogramStretch(destination);
+			// destination = ColorOperations.histogramStretch(destination);
+			// Highgui.imwrite("images/" + outputImageName, destination.mat);
 			destination = ColorOperations.threshold(destination);
+			Highgui.imwrite("images/" + outputImageName, destination.mat);
 			destination = NeighborhoodOperations.medianBlur(5, destination);
 			// destination =
 			// NeighborhoodOperations.connectedComponents(destination);
