@@ -12,7 +12,7 @@ import org.opencv.highgui.Highgui;
 
 import generic.MatWrapper;
 
-public class ImageSizeOperationsTest {
+public class MorphologicalOperationsTest {
 
 	@Before
 	public void setup() {
@@ -20,8 +20,8 @@ public class ImageSizeOperationsTest {
 	}
 
 	@Test
-	public void ResizeImageTest() throws IOException {
-		String path = "testImages/resizeImage.jpg";
+	public void dialateTest() throws IOException {
+		String path = "testImages/dialateTest.jpg";
 		Path fileToDeletePath = Paths.get(path);
 		Files.deleteIfExists(fileToDeletePath);
 
@@ -29,21 +29,8 @@ public class ImageSizeOperationsTest {
 		MatWrapper dest = new MatWrapper();
 		source.mat = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
 		dest = ImageSizeOperations.resizeImage(source, 200, 200);
+		dest = MorphologicalOperations.dialate(dest, null, 255);
 		Highgui.imwrite(path, dest.mat);
+
 	}
-
-	@Test
-	public void CropToRectTest() throws IOException {
-		String path = "testImages/cropToRectTest.jpg";
-		Path fileToDeletePath = Paths.get(path);
-		Files.deleteIfExists(fileToDeletePath);
-
-		MatWrapper source = new MatWrapper();
-		MatWrapper dest = new MatWrapper();
-		source.mat = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
-		dest = ImageSizeOperations.CropToRect(source, source.mat.width() / 4, source.mat.height() / 4,
-				source.mat.width() / 2, source.mat.height() / 2);
-		Highgui.imwrite(path, dest.mat);
-	}
-
 }
