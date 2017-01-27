@@ -11,8 +11,6 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 
-import imageprimitives.ColorOperations;
-
 public class ColorOperationsTest {
 
 	@Before
@@ -42,4 +40,14 @@ public class ColorOperationsTest {
 		Highgui.imwrite(path, dest);
 	}
 
+	@Test
+	public void histogramTest() throws IOException {
+		String path = "testImages/histogramTest.jpg";
+		Path fileToDeletePath = Paths.get(path);
+		Files.deleteIfExists(fileToDeletePath);
+
+		Mat source = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
+		Mat dest = ColorOperations.histogramStretch(source);
+		Highgui.imwrite(path, dest);
+	}
 }

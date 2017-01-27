@@ -28,14 +28,8 @@ public class ColorOperations {
 	 */
 	public static Mat histogramStretch(Mat input) {
 		Mat output = new Mat();
-		try {
-
-			Imgproc.equalizeHist(input, output);
-
-		} catch (Exception e) {
-			System.out.println("error: " + e.getMessage());
-		}
-
+		output = ColorOperations.toGrayscale(input);
+		Imgproc.equalizeHist(output, output);
 		return output;
 
 	}
