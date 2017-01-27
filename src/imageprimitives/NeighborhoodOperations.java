@@ -55,7 +55,9 @@ public class NeighborhoodOperations {
 		} catch (IOException e) {
 			System.out.println(e.toString());
 		}
-		boolean[][] visited = new boolean[img.getWidth()][img.getHeight()];
+		System.out.println(img.getHeight());
+		System.out.println(img.getWidth());
+		boolean[][] visited = new boolean[img.getHeight()][img.getWidth()];
 		Pixel p = new Pixel(img.getWidth() / 2, img.getHeight() / 2,
 				img.getRGB(img.getWidth() / 2, img.getHeight() / 2));
 
@@ -71,25 +73,25 @@ public class NeighborhoodOperations {
 			Pixel north = getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() - 1);
 			if (north != null) {
 				stack.push(north);
-				visited[north.getX()][north.getY()] = true;
+				visited[north.getY()][north.getX()] = true;
 			}
 
 			Pixel south = getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() + 1);
 			if (south != null) {
 				stack.push(south);
-				visited[south.getX()][south.getY()] = true;
+				visited[south.getY()][south.getX()] = true;
 			}
 
 			Pixel west = getNeighbor(pRoot, img, visited, pRoot.getX() - 1, pRoot.getY());
 			if (west != null) {
 				stack.push(west);
-				visited[west.getX()][west.getY()] = true;
+				visited[west.getY()][west.getX()] = true;
 			}
 
 			Pixel east = getNeighbor(pRoot, img, visited, pRoot.getX() + 1, pRoot.getY());
 			if (east != null) {
 				stack.push(east);
-				visited[east.getX()][east.getY()] = true;
+				visited[east.getY()][east.getX()] = true;
 			}
 
 		}
@@ -104,21 +106,20 @@ public class NeighborhoodOperations {
 		} catch (IOException e) {
 			System.out.println(e.toString());
 		}
+		System.out.println(comp.getPixels().length);
+		System.out.println(comp.getPixels()[0].length);
 
 		ImageWriter iw = new ImageWriter("testImages/finalImage.jpg", original_image.getWidth(),
 				original_image.getHeight());
 
-		for (int i = 0; i < original_image.getHeight(); i++) {
-			for (int j = 0; j < original_image.getWidth(); j++) {
-				try {
-					Pixel p = comp.getPixel(i, j);
-					if (p != null) {
-						iw.setPixel(p, original_image.getRGB(i, j));
-					}
-				} catch (Exception e) {
-					System.out.println("Here");
+		System.out.println(original_image.getHeight());
+		System.out.println(original_image.getWidth());
+		for (int i = 0; i < original_image.getHeight() - 1; i++) {
+			for (int j = 0; j < original_image.getWidth() - 1; j++) {
+				Pixel p = comp.getPixel(i, j);
+				if (p != null) {
+					iw.setPixel(p, original_image.getRGB(j, i));
 				}
-
 			}
 		}
 		iw.write("jpg");
@@ -128,9 +129,43 @@ public class NeighborhoodOperations {
 
 		// Bounds check and color check.
 		if (y < 0 || y > img.getHeight() - 1 || x < 0 || x > img.getWidth() - 1
-				|| p.getColor().getRGB() != img.getRGB(x, y) || visited[x][y]) {
+				|| p.getColor().getRGB() != img.getRGB(x, y) || visited[y][x] || p.getRGB() != -1) {
 			return null;
 		}
 		return new Pixel(x, y, img.getRGB(x, y));
+	}
+
+	private void doCrop(ImageComponent comp, String source) {
+		BufferedImage original_image = null;
+		try {
+			original_image = ImageIO.read(new File(source));
+		} catch (IOException e) {
+			System.out.println(e.toString());
+		}
+
+		int minX = Integer.MAX_VALUE;
+		int maxX = 0;
+		int minY = Integer.MAX_VALUE;
+		int maxY = 0;
+
+		for (int i = 0; i < original_image.getHeight() - 1; i++) {
+			for (int j = 0; j < original_image.getWidth() - 1; j++) {
+				if (original_image.getRGB(j, i) == -1) {
+					if (i > maxY) {
+						maxY = i;
+					}
+					if (i < minY) {
+						minY = i;
+					}
+					if (j > maxX) {
+						j = maxX;
+					}
+					if (j < minX) {
+						j = minX;
+					}
+				}
+			}
+		}
+
 	}
 }
