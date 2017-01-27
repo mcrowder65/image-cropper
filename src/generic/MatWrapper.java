@@ -22,6 +22,11 @@ public class MatWrapper {
 		code = MatCode.RGB;
 	}
 
+	public MatWrapper(Mat mat) {
+		this.mat = mat;
+		code = MatCode.RGB;
+	}
+
 	public MatCode getCode() {
 		return code;
 	}
@@ -39,6 +44,17 @@ public class MatWrapper {
 		default:
 			return -1;
 		}
+	}
+
+	public Pixel getPixel(int row, int col) {
+		Pixel pixel = new Pixel(col, row, 0);
+		double[] val = mat.get(row, col);
+		return pixel;
+
+	}
+
+	public void Print() {
+		Tools.DumpMat(mat, "mat");
 	}
 
 }
