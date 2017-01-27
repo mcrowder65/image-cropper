@@ -110,10 +110,15 @@ public class NeighborhoodOperations {
 
 		for (int i = 0; i < original_image.getHeight(); i++) {
 			for (int j = 0; j < original_image.getWidth(); j++) {
-				Pixel p = comp.getPixel(i, j);
-				if (p != null) {
-					iw.setPixel(p, original_image.getRGB(i, j));
+				try {
+					Pixel p = comp.getPixel(i, j);
+					if (p != null) {
+						iw.setPixel(p, original_image.getRGB(i, j));
+					}
+				} catch (Exception e) {
+					System.out.println("Here");
 				}
+
 			}
 		}
 		iw.write("jpg");
