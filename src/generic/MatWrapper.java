@@ -1,5 +1,7 @@
 package generic;
 
+import java.awt.Color;
+
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
@@ -54,8 +56,9 @@ public class MatWrapper {
 	 * @return
 	 */
 	public Pixel getPixel(int row, int col) {
-		Pixel pixel = new Pixel(col, row, 0);
 		double[] val = mat.get(row, col);
+		Color color = new Color((int) val[0], (int) val[1], (int) val[2]);
+		Pixel pixel = new Pixel(col, row, color);
 		return pixel;
 
 	}
