@@ -7,21 +7,28 @@ public class Pixel {
 	private int x;
 	private int y;
 	private Color color;
+	private int rgb;
 
 	public Pixel(Pixel temp) {
 		this.x = temp.x;
 		this.y = temp.y;
 		this.color = new Color(temp.getColor().getRGB());
+		this.rgb = temp.rgb;
 	}
 
 	public Pixel(int x, int y, int rgb) {
 		this.x = x;
 		this.y = y;
 		this.color = new Color(rgb);
+		this.rgb = rgb;
 	}
 
 	public int getX() {
 		return x;
+	}
+
+	public int getRGB() {
+		return rgb;
 	}
 
 	public void setX(int x) {

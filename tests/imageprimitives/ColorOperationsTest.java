@@ -8,10 +8,9 @@ import java.nio.file.Paths;
 import org.junit.Before;
 import org.junit.Test;
 import org.opencv.core.Core;
-import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 
-import imageprimitives.ColorOperations;
+import generic.MatWrapper;
 
 public class ColorOperationsTest {
 
@@ -26,9 +25,11 @@ public class ColorOperationsTest {
 		Path fileToDeletePath = Paths.get(path);
 		Files.deleteIfExists(fileToDeletePath);
 
-		Mat source = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
-		Mat dest = ColorOperations.toGrayscale(source);
-		Highgui.imwrite(path, dest);
+		MatWrapper source = new MatWrapper();
+		MatWrapper dest = new MatWrapper();
+		source.mat = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
+		dest = ColorOperations.toGrayscale(source);
+		Highgui.imwrite(path, dest.mat);
 	}
 
 	@Test
@@ -37,9 +38,23 @@ public class ColorOperationsTest {
 		Path fileToDeletePath = Paths.get(path);
 		Files.deleteIfExists(fileToDeletePath);
 
-		Mat source = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
-		Mat dest = ColorOperations.threshold(source);
-		Highgui.imwrite(path, dest);
+		MatWrapper source = new MatWrapper();
+		MatWrapper dest = new MatWrapper();
+		source.mat = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
+		dest = ColorOperations.threshold(source);
+		Highgui.imwrite(path, dest.mat);
 	}
 
+	@Test
+	public void histogramTest() throws IOException {
+		String path = "testImages/histogramTest.jpg";
+		Path fileToDeletePath = Paths.get(path);
+		Files.deleteIfExists(fileToDeletePath);
+
+		MatWrapper source = new MatWrapper();
+		MatWrapper dest = new MatWrapper();
+		source.mat = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
+		dest = ColorOperations.histogramStretch(source);
+		Highgui.imwrite(path, dest.mat);
+	}
 }

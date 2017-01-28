@@ -27,7 +27,7 @@ public class ImageWriter {
 		}
 	}
 
-	public void setPixel(Pixel pixel) {
-		buffer.setRGB(pixel.getX(), pixel.getY(), pixel.toInteger());
+	public void setPixel(Pixel pixel, int rgb) {
+		buffer.setRGB(pixel.getX(), pixel.getY(), rgb);
 	}
 }

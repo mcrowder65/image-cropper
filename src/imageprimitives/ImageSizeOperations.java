@@ -3,8 +3,9 @@ package imageprimitives;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.core.Size;
-import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
+
+import generic.MatWrapper;
 
 public class ImageSizeOperations {
 
@@ -23,10 +24,10 @@ public class ImageSizeOperations {
 	 *            int
 	 * @return Returns the new cropped image.
 	 */
-	public static Mat CropToRect(Mat input, int minx, int miny, int maxx, int maxy) {
+	public static MatWrapper CropToRect(MatWrapper input, int minx, int miny, int maxx, int maxy) {
 		Rect rectCrop = new Rect(minx, miny, maxx - minx, maxy - miny);
 
-		Mat output = new Mat(input, rectCrop);
+		MatWrapper output = new MatWrapper(new Mat(input.mat, rectCrop));
 		return output;
 	}
 
@@ -41,21 +42,17 @@ public class ImageSizeOperations {
 	 * @param desiredHeight
 	 *            int
 	 * @return Mat Returns a Mat object if operation succeeded
-	 * @throws Exception
-	 *             Throws a generic exception if you try to resize the image to
-	 *             the same dimensions
 	 */
-	public static Mat resizeImage(Mat image, String newImageName, int desiredWidth, int desiredHeight)
-			throws Exception {
-		Size size = image.size();
+	public static MatWrapper resizeImage(MatWrapper image, int desiredWidth, int desiredHeight) {
+		Size size = image.mat.size();
 		Size desiredSize = new Size(desiredWidth, desiredHeight);
 		if (size.width != desiredWidth || size.height != desiredHeight) {
-			Mat destination = new Mat();
-			Imgproc.resize(image, destination, desiredSize);
-			Highgui.imwrite(newImageName, destination);
-			return destination;
-		}
+			MatWrapper destination = new MatWrapper();
+			Imgproc.resize(image.mat, destination.mat, desiredSize);
 
-		throw new Exception("You can't resize the image to the same dimensions!");
+			return destination;
+		} else
+			return image;
+
 	}
 }
