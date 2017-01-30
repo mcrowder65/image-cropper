@@ -22,10 +22,11 @@ public class MorphologicalOperations {
 		}
 
 		MatWrapper output = new MatWrapper(input);
+		OnColor = new Color(mask.onValue, mask.onValue, mask.onValue);
 
-		for (int row = 0; row < output.mat.height() - 1; row++) {
-			for (int col = 0; col < output.mat.width() - 1; col++) {
-				if (output.getPixel(row, col).getColor().getRed() != 0)
+		for (int row = 0; row < input.mat.height() - 1; row++) {
+			for (int col = 0; col < input.mat.width() - 1; col++) {
+				if (input.getPixel(row, col).getColor().getRed() != 0)
 					Union(output, mask, row, col);
 			}
 		}
@@ -33,8 +34,18 @@ public class MorphologicalOperations {
 		return output;
 	}
 
-	private static void Union(MatWrapper source, MorphMask mask, int targetRow, int targetCol) {
-		Color onColor = new Color(mask.onValue, mask.onValue, mask.onValue);
+	private static Color OnColor;
 
+	private static void Union(MatWrapper source, MorphMask mask, int targetRow, int targetCol) {
+
+		for (int row = targetRow - mask.pivotRow; row < targetRow - mask.pivotRow + mask.rows; row++) {
+			for (int col = targetCol - mask.pivotCol; col < targetCol - mask.pivotCol + mask.cols; col++) {
+
+				if (row < 0 || row > source.height() - 1 || col < 0 || col > source.width() - 1)
+					continue;
+
+				source.setColor(col, row, OnColor);
+			}
+		}
 	}
 }

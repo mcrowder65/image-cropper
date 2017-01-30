@@ -81,8 +81,11 @@ public class MatWrapper {
 	}
 
 	public void setPixel(Pixel pixel) {
-		int x = pixel.getX();
-		int y = pixel.getY();
+		setColor(pixel.getX(), pixel.getY(), pixel.getColor());
+	}
+
+	public void setColor(int x, int y, Color color) {
+
 		if (x < 0 || x > mat.width() - 1) {
 			System.err.println("ERROR: x was out of bounds.");
 			return;
@@ -91,7 +94,7 @@ public class MatWrapper {
 			System.err.println("ERROR: y was out of bounds.");
 			return;
 		}
-		Color color = pixel.getColor();
+
 		if (isGrayscale)
 			mat.put(y, x, color.getRed());
 		else
