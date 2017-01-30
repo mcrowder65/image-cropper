@@ -3,6 +3,7 @@ package imageprimitives;
 import java.awt.Color;
 
 import generic.MatWrapper;
+import generic.MorphMask;
 
 public class MorphologicalOperations {
 
@@ -14,7 +15,7 @@ public class MorphologicalOperations {
 	 * @param onValue
 	 * @return
 	 */
-	public static MatWrapper dialate(MatWrapper input, int[][] mask, int pivotRow, int pivotCol, int onValue) {
+	public static MatWrapper dialate(MatWrapper input, MorphMask mask) {
 		if (!input.isGrayscale()) {
 			System.err.println("ERROR: Image must be grayscale for dialate!");
 			return input;
@@ -22,20 +23,18 @@ public class MorphologicalOperations {
 
 		MatWrapper output = new MatWrapper(input);
 
-		Color onColor = new Color(onValue, onValue, onValue);
-
-		for (int row = 0; row < input.mat.height() - 1; row++) {
-			for (int col = 0; col < input.mat.width() - 1; col++) {
-				if (input.getPixel(row, col).getColor().getRed() != 0)
-					Union(input, mask, pivotRow, pivotCol, onColor, row, col);
+		for (int row = 0; row < output.mat.height() - 1; row++) {
+			for (int col = 0; col < output.mat.width() - 1; col++) {
+				if (output.getPixel(row, col).getColor().getRed() != 0)
+					Union(output, mask, row, col);
 			}
 		}
 
 		return output;
 	}
 
-	private static void Union(MatWrapper source, int[][] mask, int pivotRow, int pivotCol, Color onColor, int targetRow,
-			int targetCol) {
+	private static void Union(MatWrapper source, MorphMask mask, int targetRow, int targetCol) {
+		Color onColor = new Color(mask.onValue, mask.onValue, mask.onValue);
 
 	}
 }
