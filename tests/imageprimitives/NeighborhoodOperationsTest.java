@@ -14,12 +14,12 @@ public class NeighborhoodOperationsTest {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
 
-	@Test
-	public void testConnectedComponents() {
-		ImageComponent comp = NeighborhoodOperations.connectedComponents("testImages/thresholdTest.jpg");
-		MatWrapper mw = NeighborhoodOperations.mask(comp, "testImages/testImage1.jpg");
-		mw.Write("testImages/finalImage2.jpg");
-	}
+	/*
+	 * @Test public void testConnectedComponents() { // ImageComponent comp = //
+	 * NeighborhoodOperations.connectedComponents("testImages/thresholdTest.jpg"
+	 * ); //MatWrapper mw = NeighborhoodOperations.mask(comp,
+	 * "testImages/testImage1.jpg"); //mw.Write("testImages/finalImage2.jpg"); }
+	 */
 
 	@Test
 	public void testCrop1() {
@@ -28,7 +28,7 @@ public class NeighborhoodOperationsTest {
 		MatWrapper grayScaledImage = ColorOperations.toGrayscale(input);
 		MatWrapper threshImage = ColorOperations.threshold(grayScaledImage);
 		MatWrapper blurredImage = NeighborhoodOperations.medianBlur(85, threshImage);
-		ImageComponent comp = NeighborhoodOperations.connectedComponents("testImages/thresholdTest.jpg");
+		ImageComponent comp = NeighborhoodOperations.connectedComponents(blurredImage);
 		MatWrapper mw = NeighborhoodOperations.mask(comp, "testImages/testImage1.jpg");
 		mw.Write("testImages/finalImage2.jpg");
 	}
