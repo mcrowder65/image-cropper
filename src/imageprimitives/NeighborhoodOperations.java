@@ -55,8 +55,6 @@ public class NeighborhoodOperations {
 		} catch (IOException e) {
 			System.out.println(e.toString());
 		}
-		System.out.println(img.getHeight());
-		System.out.println(img.getWidth());
 		boolean[][] visited = new boolean[img.getHeight()][img.getWidth()];
 		Pixel p = new Pixel(img.getWidth() / 2, img.getHeight() / 2,
 				img.getRGB(img.getWidth() / 2, img.getHeight() / 2));
@@ -110,8 +108,8 @@ public class NeighborhoodOperations {
 		ImageWriter iw = new ImageWriter("testImages/finalImage.jpg", original_image.getWidth(),
 				original_image.getHeight());
 
-		for (int i = 0; i < original_image.getHeight() - 1; i++) {
-			for (int j = 0; j < original_image.getWidth() - 1; j++) {
+		for (int i = 0; i < original_image.getHeight(); i++) {
+			for (int j = 0; j < original_image.getWidth(); j++) {
 				Pixel p = comp.getPixel(i, j);
 				if (p != null) {
 					iw.setPixel(p, original_image.getRGB(j, i));
@@ -119,6 +117,8 @@ public class NeighborhoodOperations {
 			}
 		}
 		iw.write("jpg");
+		MatWrapper mw = doCrop(comp, "testImages/finalImage.jpg");
+		mw.Write("testImages/finalImage2.jpg");
 	}
 
 	private static Pixel getNeighbor(Pixel p, BufferedImage img, boolean[][] visited, int x, int y) {
@@ -140,7 +140,7 @@ public class NeighborhoodOperations {
 		return matW.getPixel(y, x);
 	}
 
-	private MatWrapper doCrop(ImageComponent comp, String source) {
+	private static MatWrapper doCrop(ImageComponent comp, String source) {
 
 		int minX = Integer.MAX_VALUE;
 		int maxX = 0;
@@ -160,16 +160,15 @@ public class NeighborhoodOperations {
 						minY = i;
 					}
 					if (j > maxX) {
-						j = maxX;
+						maxX = j;
 					}
 					if (j < minX) {
-						j = minX;
+						minX = j;
 					}
 				}
 			}
 		}
 		MatWrapper img = new MatWrapper(source);
 		return ImageSizeOperations.CropToRect(img, minX, minY, maxX, maxY);
-
 	}
 }
