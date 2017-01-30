@@ -44,6 +44,10 @@ public class MatWrapper {
 
 	}
 
+	public int getRGB(int row, int col) {
+		return getPixel(row, col).getRGB();
+	}
+
 	public Pixel getPixel(int row, int col) {
 		double[] val = mat.get(row, col);
 		Color color;
