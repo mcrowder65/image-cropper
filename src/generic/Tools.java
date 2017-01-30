@@ -1,8 +1,9 @@
 package generic;
 
-import java.io.IOException;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
-import java.nio.file.Paths;
 
 import org.opencv.core.Mat;
 
@@ -40,10 +41,18 @@ public class Tools {
 		String ss = strBld.toString();
 
 		try {
-			java.nio.file.Files.write(Paths.get("MatDumps/" + name + ".txt"), strBld.toString().getBytes(UTF8_CHARSET));
-		} catch (IOException e) {
+			WriteStringToFile("MatDumps//" + name + ".txt", strBld.toString());
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static void WriteStringToFile(String path, String str) throws Exception {
+		BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), "UTF-8"));
+		wr.write(str);
+		wr.close();
+
+		// Files.write(Paths.get("./" + path), str.getBytes(UTF8_CHARSET));
 	}
 }
