@@ -39,9 +39,23 @@ public class MatWrapper {
 		this.mat = Highgui.imread(path, Highgui.CV_LOAD_IMAGE_COLOR);
 	}
 
+	/**
+	 * Creates a deep copy.
+	 * 
+	 * @param clone
+	 */
+	public MatWrapper(MatWrapper clone) {
+		this.mat = clone.mat.clone();
+		this.isGrayscale = clone.isGrayscale;
+	}
+
 	public int getToGrayscaleConstant() {
 		return Imgproc.COLOR_RGB2GRAY;
 
+	}
+
+	public int getRGB(int row, int col) {
+		return getPixel(row, col).getRGB();
 	}
 
 	public Pixel getPixel(int row, int col) {
@@ -57,6 +71,17 @@ public class MatWrapper {
 		Pixel pixel = new Pixel(col, row, color);
 		return pixel;
 
+	}
+
+	public Pixel[][] getPixels() {
+		Pixel[][] pixels = new Pixel[mat.rows()][];
+		for (int row = 0; row < mat.height(); row++) {
+			pixels[row] = new Pixel[mat.cols()];
+			for (int col = 0; col < mat.width(); col++) {
+				pixels[row][col] = getPixel(row, col);
+			}
+		}
+		return pixels;
 	}
 
 	public void setPixel(Pixel pixel) {
