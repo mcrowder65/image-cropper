@@ -86,13 +86,13 @@ public class NeighborhoodOperations {
 
 	}
 
-	public static MatWrapper mask(MatWrapper input) {
+	public static MatWrapper mask(MatWrapper component, MatWrapper original) {
 
-		MatWrapper output = new MatWrapper(input);
+		MatWrapper output = new MatWrapper();
 
-		for (int i = 0; i < input.height(); i++) {
-			for (int j = 0; j < input.width(); j++) {
-				Pixel p = input.getPixel(i, j);
+		for (int i = 0; i < original.height(); i++) {
+			for (int j = 0; j < original.width(); j++) {
+				Pixel p = component.getPixel(i, j);
 				if (p != null) {
 					output.setPixel(p);
 				}
