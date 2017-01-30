@@ -1,5 +1,6 @@
 package imageprimitives;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -46,47 +47,42 @@ public class NeighborhoodOperations {
 	 * @param source
 	 *            String
 	 */
-	public static ImageComponent connectedComponents(String source) {
+	public static ImageComponent connectedComponents(MatWrapper input) {
 
 		Stack<Pixel> stack = new Stack<Pixel>();
-		BufferedImage img = null;
-		try {
-			img = ImageIO.read(new File(source));
-		} catch (IOException e) {
-			System.out.println(e.toString());
-		}
-		boolean[][] visited = new boolean[img.getHeight()][img.getWidth()];
-		Pixel p = new Pixel(img.getWidth() / 2, img.getHeight() / 2,
-				img.getRGB(img.getWidth() / 2, img.getHeight() / 2));
+
+		boolean[][] visited = new boolean[input.height()][input.width()];
+		Color color = new Color(input.getPixel(input.width() / 2, input.height() / 2).getRGB());
+		Pixel p = new Pixel(input.width() / 2, input.height() / 2, color);
 
 		// TODO:make sure p is "on" - this should be done via a sampling
 		// function
 		stack.push(p);
-		ImageComponent component = new ImageComponent(img.getWidth(), img.getHeight());
+		ImageComponent component = new ImageComponent(input.width(), input.height());
 
 		while (!stack.isEmpty()) {
 			Pixel pRoot = stack.pop();
 			component.setPixel(pRoot);
 
-			Pixel north = getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() - 1);
+			Pixel north = getNeighbor(pRoot, input, visited, pRoot.getX(), pRoot.getY() - 1);
 			if (north != null) {
 				stack.push(north);
 				visited[north.getY()][north.getX()] = true;
 			}
 
-			Pixel south = getNeighbor(pRoot, img, visited, pRoot.getX(), pRoot.getY() + 1);
+			Pixel south = getNeighbor(pRoot, input, visited, pRoot.getX(), pRoot.getY() + 1);
 			if (south != null) {
 				stack.push(south);
 				visited[south.getY()][south.getX()] = true;
 			}
 
-			Pixel west = getNeighbor(pRoot, img, visited, pRoot.getX() - 1, pRoot.getY());
+			Pixel west = getNeighbor(pRoot, input, visited, pRoot.getX() - 1, pRoot.getY());
 			if (west != null) {
 				stack.push(west);
 				visited[west.getY()][west.getX()] = true;
 			}
 
-			Pixel east = getNeighbor(pRoot, img, visited, pRoot.getX() + 1, pRoot.getY());
+			Pixel east = getNeighbor(pRoot, input, visited, pRoot.getX() + 1, pRoot.getY());
 			if (east != null) {
 				stack.push(east);
 				visited[east.getY()][east.getX()] = true;
@@ -97,7 +93,7 @@ public class NeighborhoodOperations {
 
 	}
 
-	public static void mask(ImageComponent comp, String source) {
+	public static MatWrapper mask(ImageComponent comp, String source) {
 		BufferedImage original_image = null;
 		try {
 			original_image = ImageIO.read(new File(source));
@@ -118,17 +114,8 @@ public class NeighborhoodOperations {
 		}
 		iw.write("jpg");
 		MatWrapper mw = doCrop(comp, "testImages/finalImage.jpg");
-		mw.Write("testImages/finalImage2.jpg");
-	}
+		return mw;
 
-	private static Pixel getNeighbor(Pixel p, BufferedImage img, boolean[][] visited, int x, int y) {
-
-		// Bounds check and color check.
-		if (y < 0 || y > img.getHeight() - 1 || x < 0 || x > img.getWidth() - 1
-				|| p.getColor().getRGB() != img.getRGB(x, y) || visited[y][x] || p.getRGB() != -1) {
-			return null;
-		}
-		return new Pixel(x, y, img.getRGB(x, y));
 	}
 
 	private static Pixel getNeighbor(Pixel p, MatWrapper matW, boolean[][] visited, int x, int y) {

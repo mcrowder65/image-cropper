@@ -23,6 +23,14 @@ public class MatWrapper {
 		mat = new Mat();
 	}
 
+	public int width() {
+		return mat.width();
+	}
+
+	public int height() {
+		return mat.height();
+	}
+
 	public MatWrapper(Mat mat) {
 		this.mat = mat;
 	}
