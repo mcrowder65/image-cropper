@@ -33,7 +33,7 @@ public class MatWrapper {
 	}
 
 	/**
-	 * TESTING
+	 * THIS WORKS
 	 * 
 	 * @param row
 	 * @param col
