@@ -31,6 +31,16 @@ public class MatWrapper {
 		this.mat = Highgui.imread(path, Highgui.CV_LOAD_IMAGE_COLOR);
 	}
 
+	/**
+	 * Creates a deep copy.
+	 * 
+	 * @param clone
+	 */
+	public MatWrapper(MatWrapper clone) {
+		this.mat = clone.mat.clone();
+		this.isGrayscale = clone.isGrayscale;
+	}
+
 	public int getToGrayscaleConstant() {
 		return Imgproc.COLOR_RGB2GRAY;
 

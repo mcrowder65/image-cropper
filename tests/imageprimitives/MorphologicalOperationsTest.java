@@ -29,7 +29,7 @@ public class MorphologicalOperationsTest {
 		MatWrapper dest = new MatWrapper();
 		source.mat = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
 		dest = ImageSizeOperations.resizeImage(source, 200, 200);
-		dest = MorphologicalOperations.dialate(dest, null, 255);
+		// dest = MorphologicalOperations.dialate(dest, null, 255);
 		Highgui.imwrite(path, dest.mat);
 
 	}
