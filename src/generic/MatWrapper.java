@@ -3,6 +3,7 @@ package generic;
 import java.awt.Color;
 
 import org.opencv.core.Mat;
+import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
 public class MatWrapper {
@@ -53,8 +54,16 @@ public class MatWrapper {
 
 	}
 
+	public void setPixel(Pixel pixel) {
+
+	}
+
 	public void Print() {
 		Tools.DumpMat(mat, "mat");
+	}
+
+	public void Write(String path) {
+		Highgui.imwrite(path, mat);
 	}
 
 }
