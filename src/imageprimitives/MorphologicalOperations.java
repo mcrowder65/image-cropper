@@ -1,17 +1,40 @@
 package imageprimitives;
 
+import java.awt.Color;
+
 import generic.MatWrapper;
-import generic.Pixel;
+import generic.MorphMask;
 
 public class MorphologicalOperations {
 
-	public static MatWrapper dialate(MatWrapper input, int[][] mask, int onValue) {
-		MatWrapper output = new MatWrapper();
-		output = ColorOperations.toGrayscale(input);
-		output = ColorOperations.threshold(output);
+	/**
+	 * The image should be thresholded first for expected results.
+	 * 
+	 * @param input
+	 * @param mask
+	 * @param onValue
+	 * @return
+	 */
+	public static MatWrapper dialate(MatWrapper input, MorphMask mask) {
+		if (!input.isGrayscale()) {
+			System.err.println("ERROR: Image must be grayscale for dialate!");
+			return input;
+		}
 
-		@SuppressWarnings("unused")
-		Pixel p = input.getPixel(output.mat.height() / 2, output.mat.width() / 2);
+		MatWrapper output = new MatWrapper(input);
+
+		for (int row = 0; row < output.mat.height() - 1; row++) {
+			for (int col = 0; col < output.mat.width() - 1; col++) {
+				if (output.getPixel(row, col).getColor().getRed() != 0)
+					Union(output, mask, row, col);
+			}
+		}
+
 		return output;
+	}
+
+	private static void Union(MatWrapper source, MorphMask mask, int targetRow, int targetCol) {
+		Color onColor = new Color(mask.onValue, mask.onValue, mask.onValue);
+
 	}
 }
