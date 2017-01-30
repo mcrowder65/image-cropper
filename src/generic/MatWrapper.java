@@ -27,6 +27,10 @@ public class MatWrapper {
 		this.mat = mat;
 	}
 
+	public MatWrapper(String path) {
+		this.mat = Highgui.imread(path);
+	}
+
 	public int getToGrayscaleConstant() {
 		return Imgproc.COLOR_RGB2GRAY;
 
@@ -54,7 +58,23 @@ public class MatWrapper {
 
 	}
 
+	/**
+	 * DOES NOT WORK YET
+	 * 
+	 * @param pixel
+	 */
 	public void setPixel(Pixel pixel) {
+		int x = pixel.getX();
+		int y = pixel.getY();
+		if (x < 0 || x > mat.width() - 1) {
+			System.err.println("ERROR: x was out of bounds.");
+			return;
+		}
+		if (y < 0 || y > mat.height() - 1) {
+			System.err.println("ERROR: y was out of bounds.");
+			return;
+		}
+		Color color = pixel.getColor();
 
 	}
 
