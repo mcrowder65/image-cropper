@@ -1,12 +1,6 @@
 package imageprimitives;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Stack;
-
-import javax.imageio.ImageIO;
 
 import org.opencv.imgproc.Imgproc;
 
@@ -52,8 +46,9 @@ public class NeighborhoodOperations {
 		Stack<Pixel> stack = new Stack<Pixel>();
 
 		boolean[][] visited = new boolean[input.height()][input.width()];
-		Color color = new Color(input.getPixel(input.width() / 2, input.height() / 2).getRGB());
-		Pixel p = new Pixel(input.width() / 2, input.height() / 2, color);
+		int col = input.width() / 2;
+		int row = input.height() / 2;
+		Pixel p = new Pixel(col, row, input.getRGB(col, row));
 
 		// TODO:make sure p is "on" - this should be done via a sampling
 		// function
@@ -93,28 +88,19 @@ public class NeighborhoodOperations {
 
 	}
 
-	public static MatWrapper mask(ImageComponent comp, String source) {
-		BufferedImage original_image = null;
-		try {
-			original_image = ImageIO.read(new File(source));
-		} catch (IOException e) {
-			System.out.println(e.toString());
-		}
+	public static MatWrapper mask(MatWrapper input) {
 
-		ImageWriter iw = new ImageWriter("testImages/finalImage.jpg", original_image.getWidth(),
-				original_image.getHeight());
+		MatWrapper output = new MatWrapper(input);
 
-		for (int i = 0; i < original_image.getHeight(); i++) {
-			for (int j = 0; j < original_image.getWidth(); j++) {
-				Pixel p = comp.getPixel(i, j);
+		for (int i = 0; i < input.height(); i++) {
+			for (int j = 0; j < input.width(); j++) {
+				Pixel p = input.getPixel(i, j);
 				if (p != null) {
-					iw.setPixel(p, original_image.getRGB(j, i));
+					output.setPixel(p);
 				}
 			}
 		}
-		iw.write("jpg");
-		MatWrapper mw = doCrop(comp, "testImages/finalImage.jpg");
-		return mw;
+		return output;
 
 	}
 
@@ -127,18 +113,17 @@ public class NeighborhoodOperations {
 		return matW.getPixel(y, x);
 	}
 
-	private static MatWrapper doCrop(ImageComponent comp, String source) {
-
+	private static MatWrapper doCrop(MatWrapper input, String source) {
 		int minX = Integer.MAX_VALUE;
 		int maxX = 0;
 		int minY = Integer.MAX_VALUE;
 		int maxY = 0;
 
-		Pixel[][] pixels = comp.getPixels();
+		Pixel[][] pixels = input.getPixels();
 
 		for (int i = 0; i < pixels.length; i++) {
 			for (int j = 0; j < pixels[0].length; j++) {
-				Pixel p = comp.getPixel(i, j);
+				Pixel p = input.getPixel(i, j);
 				if (p != null) {
 					if (i > maxY) {
 						maxY = i;
@@ -155,7 +140,7 @@ public class NeighborhoodOperations {
 				}
 			}
 		}
-		MatWrapper img = new MatWrapper(source);
-		return ImageSizeOperations.CropToRect(img, minX, minY, maxX, maxY);
+		MatWrapper output = new MatWrapper(source);
+		return ImageSizeOperations.CropToRect(output, minX, minY, maxX, maxY);
 	}
 }
