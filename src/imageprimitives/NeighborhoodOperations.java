@@ -4,7 +4,6 @@ import java.util.Stack;
 
 import org.opencv.imgproc.Imgproc;
 
-import generic.ImageComponent;
 import generic.MatWrapper;
 import generic.Pixel;
 
@@ -38,10 +37,10 @@ public class NeighborhoodOperations {
 	 * -------------- push q onto S<br>
 	 * Output Cs
 	 * 
-	 * @param source
-	 *            String
+	 * @param input
+	 *            MatWrapper
 	 */
-	public static ImageComponent connectedComponents(MatWrapper input) {
+	public static MatWrapper connectedComponents(MatWrapper input) {
 
 		Stack<Pixel> stack = new Stack<Pixel>();
 
@@ -53,8 +52,7 @@ public class NeighborhoodOperations {
 		// TODO:make sure p is "on" - this should be done via a sampling
 		// function
 		stack.push(p);
-		ImageComponent component = new ImageComponent(input.width(), input.height());
-
+		MatWrapper component = new MatWrapper(input);
 		while (!stack.isEmpty()) {
 			Pixel pRoot = stack.pop();
 			component.setPixel(pRoot);
