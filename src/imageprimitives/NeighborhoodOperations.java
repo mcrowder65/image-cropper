@@ -97,7 +97,7 @@ public class NeighborhoodOperations {
 
 	}
 
-	public static void mask(ImageComponent comp, String source) {
+	public static MatWrapper mask(ImageComponent comp, String source) {
 		BufferedImage original_image = null;
 		try {
 			original_image = ImageIO.read(new File(source));
@@ -118,7 +118,8 @@ public class NeighborhoodOperations {
 		}
 		iw.write("jpg");
 		MatWrapper mw = doCrop(comp, "testImages/finalImage.jpg");
-		mw.Write("testImages/finalImage2.jpg");
+		return mw;
+
 	}
 
 	private static Pixel getNeighbor(Pixel p, BufferedImage img, boolean[][] visited, int x, int y) {
