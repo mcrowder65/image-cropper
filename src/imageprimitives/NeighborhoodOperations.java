@@ -106,14 +106,10 @@ public class NeighborhoodOperations {
 		} catch (IOException e) {
 			System.out.println(e.toString());
 		}
-		System.out.println(comp.getPixels().length);
-		System.out.println(comp.getPixels()[0].length);
 
 		ImageWriter iw = new ImageWriter("testImages/finalImage.jpg", original_image.getWidth(),
 				original_image.getHeight());
 
-		System.out.println(original_image.getHeight());
-		System.out.println(original_image.getWidth());
 		for (int i = 0; i < original_image.getHeight() - 1; i++) {
 			for (int j = 0; j < original_image.getWidth() - 1; j++) {
 				Pixel p = comp.getPixel(i, j);
@@ -135,22 +131,28 @@ public class NeighborhoodOperations {
 		return new Pixel(x, y, img.getRGB(x, y));
 	}
 
-	private void doCrop(ImageComponent comp, String source) {
-		BufferedImage original_image = null;
-		try {
-			original_image = ImageIO.read(new File(source));
-		} catch (IOException e) {
-			System.out.println(e.toString());
+	private static Pixel getNeighbor(Pixel p, MatWrapper matW, boolean[][] visited, int x, int y) {
+		// Bounds check and color check.
+		if (y < 0 || y > matW.mat.height() - 1 || x < 0 || x > matW.mat.width() - 1
+				|| p.getColor().getRGB() != matW.getPixel(y, x).getRGB() || visited[y][x] || p.getRGB() != -1) {
+			return null;
 		}
+		return matW.getPixel(y, x);
+	}
+
+	private void doCrop(ImageComponent comp, String source) {
 
 		int minX = Integer.MAX_VALUE;
 		int maxX = 0;
 		int minY = Integer.MAX_VALUE;
 		int maxY = 0;
 
-		for (int i = 0; i < original_image.getHeight() - 1; i++) {
-			for (int j = 0; j < original_image.getWidth() - 1; j++) {
-				if (original_image.getRGB(j, i) == -1) {
+		Pixel[][] pixels = comp.getPixels();
+
+		for (int i = 0; i < pixels.length; i++) {
+			for (int j = 0; j < pixels[0].length; j++) {
+				Pixel p = comp.getPixel(i, j);
+				if (p != null) {
 					if (i > maxY) {
 						maxY = i;
 					}
