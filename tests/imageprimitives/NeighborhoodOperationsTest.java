@@ -29,7 +29,7 @@ public class NeighborhoodOperationsTest {
 		MatWrapper threshImage = ColorOperations.threshold(grayScaledImage);
 		MatWrapper blurredImage = NeighborhoodOperations.medianBlur(85, threshImage);
 		ImageComponent comp = NeighborhoodOperations.connectedComponents(blurredImage);
-		MatWrapper mw = NeighborhoodOperations.mask(comp, "testImages/testImage1.jpg");
+		MatWrapper mw = NeighborhoodOperations.mask(comp, input);
 		mw.Write("testImages/finalImage2.jpg");
 	}
 
