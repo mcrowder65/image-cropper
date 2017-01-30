@@ -36,13 +36,6 @@ public class MatWrapper {
 
 	}
 
-	/**
-	 * THIS WORKS
-	 * 
-	 * @param row
-	 * @param col
-	 * @return
-	 */
 	public Pixel getPixel(int row, int col) {
 		double[] val = mat.get(row, col);
 		Color color;
@@ -58,11 +51,6 @@ public class MatWrapper {
 
 	}
 
-	/**
-	 * DOES NOT WORK YET
-	 * 
-	 * @param pixel
-	 */
 	public void setPixel(Pixel pixel) {
 		int x = pixel.getX();
 		int y = pixel.getY();
@@ -78,7 +66,7 @@ public class MatWrapper {
 		if (isGrayscale)
 			mat.put(y, x, color.getRed());
 		else
-			mat.put(y, x, color.getRed(), color.getGreen(), color.getBlue());
+			mat.put(y, x, color.getBlue(), color.getGreen(), color.getRed());
 	}
 
 	public void Print() {
