@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.opencv.core.Core;
 
 import generic.ImageComponent;
+import generic.MatWrapper;
 
 public class NeighborhoodOperationsTest {
 
@@ -16,7 +17,8 @@ public class NeighborhoodOperationsTest {
 	@Test
 	public void testConnectedComponents() {
 		ImageComponent comp = NeighborhoodOperations.connectedComponents("testImages/thresholdTest.jpg");
-		NeighborhoodOperations.mask(comp, "testImages/testImage1.jpg");
+		MatWrapper mw = NeighborhoodOperations.mask(comp, "testImages/testImage1.jpg");
+		mw.Write("testImages/finalImage2.jpg");
 	}
 
 }
