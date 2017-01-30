@@ -140,7 +140,7 @@ public class NeighborhoodOperations {
 		return matW.getPixel(y, x);
 	}
 
-	private void doCrop(ImageComponent comp, String source) {
+	private MatWrapper doCrop(ImageComponent comp, String source) {
 
 		int minX = Integer.MAX_VALUE;
 		int maxX = 0;
@@ -168,6 +168,8 @@ public class NeighborhoodOperations {
 				}
 			}
 		}
+		MatWrapper img = new MatWrapper(source);
+		return ImageSizeOperations.CropToRect(img, minX, minY, maxX, maxY);
 
 	}
 }

@@ -28,7 +28,7 @@ public class MatWrapper {
 	}
 
 	public MatWrapper(String path) {
-		this.mat = Highgui.imread(path);
+		this.mat = Highgui.imread(path, Highgui.CV_LOAD_IMAGE_COLOR);
 	}
 
 	public int getToGrayscaleConstant() {
@@ -75,7 +75,10 @@ public class MatWrapper {
 			return;
 		}
 		Color color = pixel.getColor();
-
+		if (isGrayscale)
+			mat.put(y, x, color.getRed());
+		else
+			mat.put(y, x, color.getRed(), color.getGreen(), color.getBlue());
 	}
 
 	public void Print() {
