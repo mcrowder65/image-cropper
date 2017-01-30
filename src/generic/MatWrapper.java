@@ -3,6 +3,7 @@ package generic;
 import java.awt.Color;
 
 import org.opencv.core.Mat;
+import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
 public class MatWrapper {
@@ -24,6 +25,10 @@ public class MatWrapper {
 
 	public MatWrapper(Mat mat) {
 		this.mat = mat;
+	}
+
+	public MatWrapper(String path) {
+		this.mat = Highgui.imread(path);
 	}
 
 	public int getToGrayscaleConstant() {
@@ -53,8 +58,32 @@ public class MatWrapper {
 
 	}
 
+	/**
+	 * DOES NOT WORK YET
+	 * 
+	 * @param pixel
+	 */
+	public void setPixel(Pixel pixel) {
+		int x = pixel.getX();
+		int y = pixel.getY();
+		if (x < 0 || x > mat.width() - 1) {
+			System.err.println("ERROR: x was out of bounds.");
+			return;
+		}
+		if (y < 0 || y > mat.height() - 1) {
+			System.err.println("ERROR: y was out of bounds.");
+			return;
+		}
+		Color color = pixel.getColor();
+
+	}
+
 	public void Print() {
 		Tools.DumpMat(mat, "mat");
+	}
+
+	public void Write(String path) {
+		Highgui.imwrite(path, mat);
 	}
 
 }
