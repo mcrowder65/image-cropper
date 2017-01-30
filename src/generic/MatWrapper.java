@@ -69,6 +69,17 @@ public class MatWrapper {
 
 	}
 
+	public Pixel[][] getPixels() {
+		Pixel[][] pixels = new Pixel[mat.rows()][];
+		for (int row = 0; row < mat.height(); row++) {
+			pixels[row] = new Pixel[mat.cols()];
+			for (int col = 0; col < mat.width(); col++) {
+				pixels[row][col] = getPixel(row, col);
+			}
+		}
+		return pixels;
+	}
+
 	public void setPixel(Pixel pixel) {
 		int x = pixel.getX();
 		int y = pixel.getY();
