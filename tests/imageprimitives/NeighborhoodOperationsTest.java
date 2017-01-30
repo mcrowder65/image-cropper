@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.opencv.core.Core;
 
-import generic.ImageComponent;
 import generic.MatWrapper;
 
 public class NeighborhoodOperationsTest {
@@ -28,7 +27,7 @@ public class NeighborhoodOperationsTest {
 		MatWrapper grayScaledImage = ColorOperations.toGrayscale(input);
 		MatWrapper threshImage = ColorOperations.threshold(grayScaledImage);
 		MatWrapper blurredImage = NeighborhoodOperations.medianBlur(85, threshImage);
-		ImageComponent comp = NeighborhoodOperations.connectedComponents(blurredImage);
+		MatWrapper comp = NeighborhoodOperations.connectedComponents(blurredImage);
 		MatWrapper mw = NeighborhoodOperations.mask(comp, input);
 		mw.Write("testImages/finalImage2.jpg");
 	}
