@@ -31,6 +31,7 @@ public class Main {
 			// Maybe TODO? Reduce image size
 			// destination = ColorOperations.histogramStretch(destination);
 			// Highgui.imwrite("images/" + outputImageName, destination.mat);
+			destination = ColorOperations.toGrayscale(destination);
 			destination = ColorOperations.threshold(destination);
 			Highgui.imwrite("images/" + outputImageName, destination.mat);
 			destination = NeighborhoodOperations.medianBlur(5, destination);
