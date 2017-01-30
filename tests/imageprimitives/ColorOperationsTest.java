@@ -11,6 +11,7 @@ import org.opencv.core.Core;
 import org.opencv.highgui.Highgui;
 
 import generic.MatWrapper;
+import generic.Pixel;
 
 public class ColorOperationsTest {
 
@@ -28,7 +29,10 @@ public class ColorOperationsTest {
 		MatWrapper source = new MatWrapper();
 		MatWrapper dest = new MatWrapper();
 		source.mat = Highgui.imread("testImages/testImage1.jpg", Highgui.CV_LOAD_IMAGE_COLOR);
+		Pixel p = source.getPixel(source.mat.height() / 2, source.mat.width() / 2);
+
 		dest = ColorOperations.toGrayscale(source);
+		p = dest.getPixel(dest.mat.height() / 2, dest.mat.width() / 2);
 		Highgui.imwrite(path, dest.mat);
 	}
 

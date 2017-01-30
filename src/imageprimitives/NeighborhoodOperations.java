@@ -131,6 +131,15 @@ public class NeighborhoodOperations {
 		return new Pixel(x, y, img.getRGB(x, y));
 	}
 
+	private static Pixel getNeighbor(Pixel p, MatWrapper matW, boolean[][] visited, int x, int y) {
+		// Bounds check and color check.
+		if (y < 0 || y > matW.mat.height() - 1 || x < 0 || x > matW.mat.width() - 1
+				|| p.getColor().getRGB() != matW.getPixel(y, x).getRGB() || visited[y][x] || p.getRGB() != -1) {
+			return null;
+		}
+		return matW.getPixel(y, x);
+	}
+
 	private void doCrop(ImageComponent comp, String source) {
 
 		int minX = Integer.MAX_VALUE;
