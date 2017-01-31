@@ -19,20 +19,33 @@ public class NeighborhoodOperationsTest {
 	 * ); //MatWrapper mw = NeighborhoodOperations.mask(comp,
 	 * "testImages/testImage1.jpg"); //mw.Write("testImages/finalImage2.jpg"); }
 	 */
+<<<<<<< HEAD
 
 	// @Test
 	public void testCrop4() {
 		// greyScale threshold blur
 		String name = "familySearchImages/Crop4";
 		String extension = ".jpg";
+=======
+	public void crop(String name, String extension) {
+>>>>>>> master
 		MatWrapper input = new MatWrapper(name + extension);
 		MatWrapper grayScaledImage = ColorOperations.toGrayscale(input);
 		MatWrapper threshImage = ColorOperations.threshold(grayScaledImage);
 		MatWrapper blurredImage = NeighborhoodOperations.medianBlur(85, threshImage);
 		ImageComponent comp = NeighborhoodOperations.connectedComponents(blurredImage);
 		MatWrapper maskedImage = NeighborhoodOperations.mask(comp, input);
-
 		maskedImage.Write(name + "Test" + extension);
+	}
+
+	@Test
+	public void testCrop1() {
+		crop("familySearchImages/Crop1", ".jpg");
+	}
+
+	@Test
+	public void testCrop2() {
+		crop("familySearchImages/Crop2", ".jpg");
 	}
 
 }
