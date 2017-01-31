@@ -19,16 +19,8 @@ public class NeighborhoodOperationsTest {
 	 * ); //MatWrapper mw = NeighborhoodOperations.mask(comp,
 	 * "testImages/testImage1.jpg"); //mw.Write("testImages/finalImage2.jpg"); }
 	 */
-<<<<<<< HEAD
 
-	// @Test
-	public void testCrop4() {
-		// greyScale threshold blur
-		String name = "familySearchImages/Crop4";
-		String extension = ".jpg";
-=======
 	public void crop(String name, String extension) {
->>>>>>> master
 		MatWrapper input = new MatWrapper(name + extension);
 		MatWrapper grayScaledImage = ColorOperations.toGrayscale(input);
 		MatWrapper threshImage = ColorOperations.threshold(grayScaledImage);
