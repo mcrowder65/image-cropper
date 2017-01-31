@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.opencv.core.Core;
 
+import generic.ImageComponent;
 import generic.MatWrapper;
 
 public class NeighborhoodOperationsTest {
@@ -23,17 +24,16 @@ public class NeighborhoodOperationsTest {
 	@Test
 	public void testCrop1() {
 		// greyScale threshold blur
-		String name = "familySearchImages/Crop1";
+		String name = "familySearchImages/Crop4";
 		String extension = ".jpg";
 		MatWrapper input = new MatWrapper(name + extension);
 		MatWrapper grayScaledImage = ColorOperations.toGrayscale(input);
 		MatWrapper threshImage = ColorOperations.threshold(grayScaledImage);
 		MatWrapper blurredImage = NeighborhoodOperations.medianBlur(85, threshImage);
-		MatWrapper comp = NeighborhoodOperations.connectedComponents(blurredImage);
+		ImageComponent comp = NeighborhoodOperations.connectedComponents(blurredImage);
 		MatWrapper maskedImage = NeighborhoodOperations.mask(comp, input);
-		MatWrapper croppedImage = NeighborhoodOperations.doCrop(maskedImage);
 
-		croppedImage.Write(name + "Test" + extension);
+		maskedImage.Write(name + "Test" + extension);
 	}
 
 }
