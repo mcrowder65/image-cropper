@@ -1,7 +1,6 @@
 package imageprimitives;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.opencv.core.Core;
 
 import generic.ImageComponent;
@@ -21,8 +20,8 @@ public class NeighborhoodOperationsTest {
 	 * "testImages/testImage1.jpg"); //mw.Write("testImages/finalImage2.jpg"); }
 	 */
 
-	@Test
-	public void testCrop1() {
+	// @Test
+	public void testCrop4() {
 		// greyScale threshold blur
 		String name = "familySearchImages/Crop4";
 		String extension = ".jpg";
