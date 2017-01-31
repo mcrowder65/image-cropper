@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import org.opencv.imgproc.Imgproc;
 
+import generic.ImageComponent;
 import generic.MatWrapper;
 import generic.Pixel;
 
@@ -40,7 +41,7 @@ public class NeighborhoodOperations {
 	 * @param input
 	 *            MatWrapper
 	 */
-	public static MatWrapper connectedComponents(MatWrapper input) {
+	public static ImageComponent connectedComponents(MatWrapper input) {
 
 		Stack<Pixel> stack = new Stack<Pixel>();
 
@@ -52,7 +53,8 @@ public class NeighborhoodOperations {
 		// TODO:make sure p is "on" - this should be done via a sampling
 		// function
 		stack.push(p);
-		MatWrapper component = new MatWrapper(input);
+		// MatWrapper component = new MatWrapper(input);
+		ImageComponent component = new ImageComponent(input.width(), input.height());
 		while (!stack.isEmpty()) {
 			Pixel pRoot = stack.pop();
 			component.setPixel(pRoot);
@@ -86,42 +88,17 @@ public class NeighborhoodOperations {
 
 	}
 
-	public static MatWrapper mask(MatWrapper component, MatWrapper original) {
+	public static MatWrapper mask(ImageComponent component, MatWrapper original) {
 
-		MatWrapper output = new MatWrapper();
-
-		for (int i = 0; i < original.height(); i++) {
-			for (int j = 0; j < original.width(); j++) {
-				Pixel p = component.getPixel(i, j);
-				if (p != null) {
-					output.setPixel(p);
-				}
-			}
-		}
-		return output;
-
-	}
-
-	private static Pixel getNeighbor(Pixel p, MatWrapper matW, boolean[][] visited, int x, int y) {
-		// Bounds check and color check.
-		if (y < 0 || y > matW.mat.height() - 1 || x < 0 || x > matW.mat.width() - 1
-				|| p.getColor().getRGB() != matW.getPixel(y, x).getRGB() || visited[y][x] || p.getRGB() != -1) {
-			return null;
-		}
-		return matW.getPixel(y, x);
-	}
-
-	public static MatWrapper doCrop(MatWrapper input) {
+		// MatWrapper output = new MatWrapper(orig);
 		int minX = Integer.MAX_VALUE;
 		int maxX = 0;
 		int minY = Integer.MAX_VALUE;
 		int maxY = 0;
 
-		Pixel[][] pixels = input.getPixels();
-
-		for (int i = 0; i < pixels.length; i++) {
-			for (int j = 0; j < pixels[0].length; j++) {
-				Pixel p = input.getPixel(i, j);
+		for (int i = 0; i < original.height(); i++) {
+			for (int j = 0; j < original.width(); j++) {
+				Pixel p = component.getPixel(i, j);
 				if (p != null) {
 					if (i > maxY) {
 						maxY = i;
@@ -138,6 +115,16 @@ public class NeighborhoodOperations {
 				}
 			}
 		}
-		return ImageSizeOperations.CropToRect(input, minX, minY, maxX, maxY);
+		return ImageSizeOperations.CropToRect(original, minX, minY, maxX, maxY);
+
+	}
+
+	private static Pixel getNeighbor(Pixel p, MatWrapper matW, boolean[][] visited, int x, int y) {
+		// Bounds check and color check.
+		if (y < 0 || y > matW.mat.height() - 1 || x < 0 || x > matW.mat.width() - 1
+				|| p.getColor().getRGB() != matW.getPixel(y, x).getRGB() || visited[y][x] || p.getRGB() != -1) {
+			return null;
+		}
+		return matW.getPixel(y, x);
 	}
 }
