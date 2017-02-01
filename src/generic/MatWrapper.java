@@ -3,6 +3,7 @@ package generic;
 import java.awt.Color;
 
 import org.opencv.core.Mat;
+import org.opencv.core.Rect;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
@@ -33,6 +34,12 @@ public class MatWrapper {
 
 	public MatWrapper(Mat mat) {
 		this.mat = mat;
+	}
+
+	public MatWrapper(MatWrapper matW, Rect rectCrop) {
+		this.mat = new Mat(matW.mat, rectCrop);
+		this.isGrayscale = matW.isGrayscale;
+
 	}
 
 	public MatWrapper(String path) {
