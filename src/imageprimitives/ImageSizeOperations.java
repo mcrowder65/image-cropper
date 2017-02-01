@@ -1,6 +1,5 @@
 package imageprimitives;
 
-import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
@@ -27,7 +26,7 @@ public class ImageSizeOperations {
 	public static MatWrapper CropToRect(MatWrapper input, int minx, int miny, int maxx, int maxy) {
 		Rect rectCrop = new Rect(minx, miny, maxx - minx, maxy - miny);
 
-		MatWrapper output = new MatWrapper(new Mat(input.mat, rectCrop));
+		MatWrapper output = new MatWrapper(input, rectCrop);
 		return output;
 	}
 
