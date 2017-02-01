@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.opencv.core.Core;
 
+import generic.ImageComponent;
 import generic.MatWrapper;
 
 public class NeighborhoodOperationsTest {
@@ -29,21 +30,70 @@ public class NeighborhoodOperationsTest {
 		mw.Write(path);
 	}
 
-	@Test
-	public void testCrop1() {
+	public void crop(String name, String extension) {
 
-		String name = "familySearchImages/Crop1";
-		String extension = ".jpg";
 		MatWrapper input = new MatWrapper(name + extension);
 		MatWrapper grayScaledImage = ColorOperations.toGrayscale(input);
 		MatWrapper threshImage = ColorOperations.threshold(grayScaledImage);
 		MatWrapper blurredImage = NeighborhoodOperations.medianBlur(85, threshImage);
-		MatWrapper comp = NeighborhoodOperations.connectedComponents(blurredImage);
+		ImageComponent comp = NeighborhoodOperations.connectedComponents(blurredImage);
 		MatWrapper maskedImage = NeighborhoodOperations.mask(comp, input);
-		MatWrapper croppedImage = NeighborhoodOperations.doCrop(maskedImage);
+		maskedImage.Write(name + "Test" + extension);
+	}
 
-		croppedImage.Write(name + "Test" + extension);
+	@Test
+	public void testCrop1() {
+		crop("familySearchImages/Crop1", ".jpg");
+	}
 
+	@Test
+	public void testCrop2() {
+		crop("familySearchImages/Crop2", ".jpg");
+	}
+
+	@Test
+	public void testCrop3() {
+		crop("familySearchImages/Crop3", ".jpg");
+	}
+
+	@Test
+	public void testCrop4() {
+		crop("familySearchImages/Crop4", ".jpg");
+	}
+
+	@Test
+	public void testCrop5() {
+		crop("familySearchImages/Crop5", ".jpg");
+	}
+
+	@Test
+	public void testCrop6() {
+		crop("familySearchImages/Crop6", ".jpg");
+	}
+
+	@Test
+	public void testCrop7() {
+		crop("familySearchImages/Crop7", ".jpg");
+	}
+
+	@Test
+	public void testCrop8() {
+		crop("familySearchImages/Crop8", ".jpg");
+	}
+
+	@Test
+	public void testCrop9() {
+		crop("familySearchImages/Crop9", ".jpg");
+	}
+
+	@Test
+	public void testCrop10() {
+		crop("familySearchImages/Crop10", ".jpg");
+	}
+
+	@Test
+	public void testCrop11() {
+		crop("familySearchImages/Crop11", ".jpg");
 	}
 
 }
