@@ -21,49 +21,46 @@ public class MorphologicalOperationsTest {
 
 	@Test
 	public void dialateTest() throws IOException {
-		// String path = "testImages/dialateTest.jpg";
-		// Path fileToDeletePath = Paths.get(path);
-		// Files.deleteIfExists(fileToDeletePath);
-		//
-		// MatWrapper source = new MatWrapper("testImages/testImage1.jpg");
-		// source = ColorOperations.toGrayscale(source);
-		// source = ColorOperations.threshold(source);
-		//
-		// source = MorphologicalOperations.dialate(source, new MorphMask(3, 3,
-		// 1, 1, 255));
-		// source.Write(path);
+		String path = "testImages/dialateTest.jpg";
+		Path fileToDeletePath = Paths.get(path);
+		Files.deleteIfExists(fileToDeletePath);
+
+		MatWrapper source = new MatWrapper("testImages/testImage1.jpg");
+		source = ColorOperations.toGrayscale(source);
+		source = ColorOperations.threshold(source);
+
+		source = MorphologicalOperations.dialate(source, new MorphMask(3, 3, 1, 1, 255));
+		source.Write(path);
 
 	}
 
 	@Test
 	public void erodeTest() throws IOException {
-		// String path = "testImages/erodeTest.jpg";
-		// Path fileToDeletePath = Paths.get(path);
-		// Files.deleteIfExists(fileToDeletePath);
-		//
-		// MatWrapper source = new MatWrapper("testImages/testImage1.jpg");
-		// source = ColorOperations.toGrayscale(source);
-		// source = ColorOperations.threshold(source);
-		//
-		// source = MorphologicalOperations.erode(source, new MorphMask(3, 3, 1,
-		// 1, 255));
-		// source.Write(path);
+		String path = "testImages/erodeTest.jpg";
+		Path fileToDeletePath = Paths.get(path);
+		Files.deleteIfExists(fileToDeletePath);
+
+		MatWrapper source = new MatWrapper("testImages/testImage1.jpg");
+		source = ColorOperations.toGrayscale(source);
+		source = ColorOperations.threshold(source);
+
+		source = MorphologicalOperations.erode(source, new MorphMask(3, 3, 1, 1, 255));
+		source.Write(path);
 
 	}
 
 	@Test
 	public void morphCloseTest() throws IOException {
-		// String path = "testImages/morphCloseTest.jpg";
-		// Path fileToDeletePath = Paths.get(path);
-		// Files.deleteIfExists(fileToDeletePath);
-		//
-		// MatWrapper source = new MatWrapper("testImages/testImage1.jpg");
-		// source = ColorOperations.toGrayscale(source);
-		// source = ColorOperations.threshold(source);
-		//
-		// source = MorphologicalOperations.morphClose(source, new MorphMask(3,
-		// 3, 1, 1, 255));
-		// source.Write(path);
+		String path = "testImages/morphCloseTest.jpg";
+		Path fileToDeletePath = Paths.get(path);
+		Files.deleteIfExists(fileToDeletePath);
+
+		MatWrapper source = new MatWrapper("testImages/testImage1.jpg");
+		source = ColorOperations.toGrayscale(source);
+		source = ColorOperations.threshold(source);
+
+		source = MorphologicalOperations.morphClose(source, new MorphMask(7, 7, 3, 3, 255));
+		source.Write(path);
 
 	}
 
