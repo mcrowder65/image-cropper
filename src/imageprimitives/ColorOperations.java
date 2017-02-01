@@ -48,7 +48,7 @@ public class ColorOperations {
 	 * @return Mat
 	 */
 	public static MatWrapper threshold(MatWrapper input) {
-		MatWrapper output = new MatWrapper(input.mat);
+		MatWrapper output = new MatWrapper(input);
 
 		// output = NeighborhoodOperations.medianBlur(87, output);
 		Imgproc.threshold(output.mat, output.mat, 128, 255, Imgproc.THRESH_BINARY);
