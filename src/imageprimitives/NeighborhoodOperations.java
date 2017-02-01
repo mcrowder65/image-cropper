@@ -50,10 +50,7 @@ public class NeighborhoodOperations {
 		int row = input.height() / 2;
 		Pixel p = new Pixel(col, row, input.getRGB(col, row));
 
-		// TODO:make sure p is "on" - this should be done via a sampling
-		// function
 		stack.push(p);
-		// MatWrapper component = new MatWrapper(input);
 		ImageComponent component = new ImageComponent(input.width(), input.height());
 		while (!stack.isEmpty()) {
 			Pixel pRoot = stack.pop();
@@ -90,7 +87,6 @@ public class NeighborhoodOperations {
 
 	public static MatWrapper mask(ImageComponent component, MatWrapper original) {
 
-		// MatWrapper output = new MatWrapper(orig);
 		int minX = Integer.MAX_VALUE;
 		int maxX = 0;
 		int minY = Integer.MAX_VALUE;
