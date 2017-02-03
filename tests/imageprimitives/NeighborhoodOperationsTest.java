@@ -9,7 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.opencv.core.Core;
 
+import generic.ImageComponent;
 import generic.MatWrapper;
+import generic.MorphMask;
 
 public class NeighborhoodOperationsTest {
 
@@ -33,8 +35,16 @@ public class NeighborhoodOperationsTest {
 
 		MatWrapper input = new MatWrapper(name + extension);
 		MatWrapper grayScaledImage = ColorOperations.toGrayscale(input);
-		MatWrapper threshImage = ColorOperations.threshold(grayScaledImage);
-		MatWrapper blurredImage = NeighborhoodOperations.medianBlur(15, threshImage);
+		MatWrapper blurredImage = NeighborhoodOperations.medianBlur(15, grayScaledImage);
+		blurredImage.Write(name + "_Blur" + extension);
+		MatWrapper threshImage = ColorOperations.threshold(blurredImage);
+		threshImage.Write(name + "_Thresh" + extension);
+
+		threshImage = MorphologicalOperations.morphClose(threshImage, new MorphMask(7, 7, 3, 3, 255));
+		threshImage.Write(name + "_MorphClose" + extension);
+		ImageComponent ccOuter = NeighborhoodOperations.connectedComponents(threshImage, 1, 1);
+		MatWrapper outerMasked = NeighborhoodOperations.inverseMask(ccOuter, threshImage);
+		outerMasked.Write(name + "_OuterMask" + extension);
 		// MorphologicalOperations.
 		// ImageComponent comp =
 		// NeighborhoodOperations.connectedComponents(blurredImage);

@@ -19,7 +19,7 @@ public class NeighborhoodOperations {
 	 *            Mat
 	 */
 	public static MatWrapper medianBlur(int k, MatWrapper source) {
-		MatWrapper destination = new MatWrapper();
+		MatWrapper destination = new MatWrapper(source);
 		Imgproc.medianBlur(source.mat, destination.mat, k);
 		return destination;
 	}
@@ -41,13 +41,13 @@ public class NeighborhoodOperations {
 	 * @param input
 	 *            MatWrapper
 	 */
-	public static ImageComponent connectedComponents(MatWrapper input) {
+	public static ImageComponent connectedComponents(MatWrapper input, int seedRow, int seedCol) {
 
 		Stack<Pixel> stack = new Stack<Pixel>();
 
 		boolean[][] visited = new boolean[input.height()][input.width()];
-		int col = input.width() / 2;
-		int row = input.height() / 2;
+		int col = seedCol;
+		int row = seedRow;
 		Pixel p = new Pixel(col, row, input.getRGB(col, row));
 
 		// TODO:make sure p is "on" - this should be done via a sampling
@@ -119,10 +119,77 @@ public class NeighborhoodOperations {
 
 	}
 
+	public static MatWrapper inverseMask(ImageComponent component, MatWrapper original) {
+
+		int minX = 0;
+		int minY = inversemask_findMinY(component, original);
+		int maxX = original.width() - 1;
+		int maxY = inversemask_findMaxY(component, original);
+
+		return ImageSizeOperations.CropToRect(original, minX, minY, maxX, maxY);
+
+	}
+
+	static final int INVERSEMASK_TOLERANCE = 50;
+
+	private static int inversemask_findMinY(ImageComponent component, MatWrapper original) {
+
+		for (int row = 0; row < original.height(); row++) {
+			for (int col = 0; col < original.width(); col++) {
+				Pixel p = component.getPixel(row, col);
+				if (p == null) { // Found a non-cc, check pixels below to see if
+									// it was just noise
+					boolean justNoise = false;
+					for (int subRow = row; subRow < Math.min(original.height() - 1,
+							row + INVERSEMASK_TOLERANCE); subRow++) {
+						if (component.getPixel(subRow, col) != null) {
+							justNoise = true;
+							break;
+						}
+					}
+					if (!justNoise)
+						return row;
+
+				}
+			}
+		}
+
+		return 0;
+
+	}
+
+	private static int inversemask_findMaxY(ImageComponent component, MatWrapper original) {
+
+		for (int row = original.height() - 1; row > -1; row--) {
+			for (int col = 0; col < original.width(); col++) {
+				Pixel p = component.getPixel(row, col);
+				if (p == null) { // Found a non-cc, check pixels below to see if
+									// it was just noise
+					boolean justNoise = false;
+					for (int subRow = row; subRow > Math.max(0, row - INVERSEMASK_TOLERANCE); subRow--) {
+						if (component.getPixel(subRow, col) != null) {
+							justNoise = true;
+							break;
+						}
+					}
+					if (!justNoise)
+						return row;
+
+				}
+			}
+		}
+
+		return original.height() - 1;
+
+	}
+
 	private static Pixel getNeighbor(Pixel p, MatWrapper matW, boolean[][] visited, int x, int y) {
 		// Bounds check and color check.
-		if (y < 0 || y > matW.mat.height() - 1 || x < 0 || x > matW.mat.width() - 1
-				|| p.getColor().getRGB() != matW.getPixel(y, x).getRGB() || visited[y][x] || p.getRGB() != -1) {
+		if (y < 0 || y > matW.mat.height() - 1 || x < 0 || x > matW.mat.width() - 1)
+			return null;
+		int pRGB = p.getRGB();
+		int neighRGB = matW.getPixel(y, x).getRGB();
+		if (pRGB != neighRGB || visited[y][x]) {
 			return null;
 		}
 		return matW.getPixel(y, x);
