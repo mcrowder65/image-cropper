@@ -50,10 +50,7 @@ public class NeighborhoodOperations {
 		int row = seedRow;
 		Pixel p = new Pixel(col, row, input.getRGB(col, row));
 
-		// TODO:make sure p is "on" - this should be done via a sampling
-		// function
 		stack.push(p);
-		// MatWrapper component = new MatWrapper(input);
 		ImageComponent component = new ImageComponent(input.width(), input.height());
 		while (!stack.isEmpty()) {
 			Pixel pRoot = stack.pop();
@@ -90,7 +87,6 @@ public class NeighborhoodOperations {
 
 	public static MatWrapper mask(ImageComponent component, MatWrapper original) {
 
-		// MatWrapper output = new MatWrapper(orig);
 		int minX = Integer.MAX_VALUE;
 		int maxX = 0;
 		int minY = Integer.MAX_VALUE;
@@ -125,6 +121,35 @@ public class NeighborhoodOperations {
 		int minY = inversemask_findMinY(component, original);
 		int maxX = original.width() - 1;
 		int maxY = inversemask_findMaxY(component, original);
+		return null; // TODO
+	}
+
+	public static MatWrapper mask2(ImageComponent component, MatWrapper original) {
+
+		int minX = Integer.MAX_VALUE;
+		int maxX = 0;
+		int minY = Integer.MAX_VALUE;
+		int maxY = 0;
+
+		for (int i = 0; i < original.height(); i++) {
+			for (int j = 0; j < original.width(); j++) {
+				Pixel p = component.getPixel(i, j);
+				if (p != null) {
+					if (i > maxY) {
+						maxY = i;
+					}
+					if (i < minY) {
+						minY = i;
+					}
+					if (j > maxX) {
+						maxX = j;
+					}
+					if (j < minX) {
+						minX = j;
+					}
+				}
+			}
+		}
 
 		return ImageSizeOperations.CropToRect(original, minX, minY, maxX, maxY);
 
@@ -180,6 +205,233 @@ public class NeighborhoodOperations {
 		}
 
 		return original.height() - 1;
+	}
+
+	public static MatWrapper secondCrop(MatWrapper matW, MatWrapper original) {
+
+		int height = matW.height();
+		int width = matW.width();
+		int startHeight = (height / 2) - 100;
+		int endHeight = (height / 2) + 100;
+		int startWidth = (width / 2) - (int) (0.15 * width);
+		int endWidth = (width / 2) + (int) (0.15 * width);
+
+		int minX = 0;
+		int maxX = width;
+		int minY = 0;
+		int maxY = height;
+
+		for (int j = 10; j < (height / 2); j++) {
+			for (int i = startWidth; i < endWidth; i++) {
+				Pixel p = matW.getPixel(j, i);
+				if (p.getRGB() != -1) {
+					minY = j;
+					break;
+				}
+			}
+			if (minY != 0) {
+				int sum = 0;
+				for (int z = j; z < (j + 50); z++) {
+
+					sum += matW.getPixel(z, (width / 2) - 35).getRGB();
+				}
+				float avg = ((float) sum / (float) 50);
+				System.out.println(sum);
+				if (sum > -2000000) {
+					break;
+				}
+			}
+		}
+
+		// System.out.println(minY);
+		System.out.println("-----------");
+
+		for (int j = height - 10; j > 0; j--) {
+			for (int i = startWidth; i < endWidth; i++) {
+				Pixel p = matW.getPixel(j, i);
+				if (p.getRGB() != -1) {
+					maxY = j;
+					break;
+				}
+			}
+			if (maxY != height) {
+				int sum = 0;
+				for (int z = j; z > (j - 50); z--) {
+					int top_val = 0;
+
+					sum += matW.getPixel(z, (width / 2) - 35).getRGB();
+				}
+
+				float avg = ((float) sum / (float) 50);
+				System.out.println(sum);
+				if (avg > -2000000) {
+					break;
+				}
+
+			}
+		}
+
+		// System.out.println(maxY);
+
+		for (int j = 10; j < (width / 2); j++) {
+			for (int i = startHeight; i < endHeight; i++) {
+				Pixel p = matW.getPixel(i, j);
+				if (p.getRGB() != -1) {
+					minX = j;
+					break;
+
+				}
+			}
+			if (minX != 0) {
+				int sum = 0;
+				for (int z = j; z < (j + 50); z++) {
+					sum += matW.getPixel(startHeight, z).getRGB();
+				}
+				float avg = ((float) sum / (float) 50);
+				if (sum > -100000000) {
+					break;
+				}
+			}
+		}
+
+		for (int j = width - 10; j > 0; j--) {
+			for (int i = startHeight; i < endHeight; i++) {
+				Pixel p = matW.getPixel(i, j);
+				if (p.getRGB() != -1) {
+					maxX = j;
+					break;
+				}
+			}
+			if (maxX != width) {
+				int sum = 0;
+				for (int z = j; z > (j - 50); z--) {
+					sum += matW.getPixel(startHeight, z).getRGB();
+				}
+
+				float avg = ((float) sum / (float) 50);
+				if (avg > -2000000) {
+					break;
+				}
+
+			}
+		}
+
+		if (minX > 25) {
+			minX = minX - 25;
+		} else {
+			minX = 0;
+		}
+		if (minY > 25) {
+			minY = minY - 25;
+		} else {
+			minY = 0;
+		}
+
+		if (maxX < width - 50) {
+			maxX = maxX + 50;
+		} else {
+			maxX = width - 1;
+		}
+		if (maxY < height - 10) {
+			maxY = maxY + 10;
+		} else {
+			maxY = height - 1;
+		}
+
+		return ImageSizeOperations.CropToRect(original, minX, minY, maxX, maxY);
+
+	}
+
+	public static MatWrapper myCrap2(MatWrapper matW, MatWrapper original) {
+
+		int height = matW.height();
+		int width = matW.width();
+		int startHeight = (height / 2) - 25;
+		int endHeight = (height / 2) + 25;
+		int startWidth = (width / 2) - (int) (0.15 * width);
+		int endWidth = (width / 2) + (int) (0.15 * width);
+
+		int minX = 0;
+		int maxX = width;
+		int minY = 0;
+		int maxY = height;
+
+		for (int j = 10; j < (height / 2); j++) {
+			for (int i = startWidth; i < endWidth; i++) {
+				Pixel p = matW.getPixel(j, i);
+				if (p.getRGB() != -1) {
+					minY = j;
+					break;
+				}
+			}
+			if (minY != 0) {
+				break;
+			}
+		}
+
+		for (int j = height - 10; j > 0; j--) {
+			for (int i = startWidth; i < endWidth; i++) {
+				Pixel p = matW.getPixel(j, i);
+				if (p.getRGB() != -1) {
+					maxY = j;
+					break;
+				}
+			}
+			if (maxY != height) {
+				break;
+			}
+		}
+
+		for (int j = 10; j < (width / 2); j++) {
+			for (int i = startHeight; i < endHeight; i++) {
+				Pixel p = matW.getPixel(i, j);
+				if (p.getRGB() != -1) {
+					minX = j;
+					break;
+
+				}
+			}
+			if (minX != 0) {
+				break;
+			}
+		}
+
+		for (int j = width - 10; j > 0; j--) {
+			for (int i = startHeight; i < endHeight; i++) {
+				Pixel p = matW.getPixel(i, j);
+				if (p.getRGB() != -1) {
+					maxX = j;
+					break;
+				}
+			}
+			if (maxX != width) {
+				break;
+			}
+		}
+
+		if (minX > 25) {
+			minX = minX - 25;
+		} else {
+			minX = 0;
+		}
+		if (minY > 25) {
+			minY = minY - 25;
+		} else {
+			minY = 0;
+		}
+
+		if (maxX < width - 20) {
+			maxX = maxX + 20;
+		} else {
+			maxX = width - 1;
+		}
+		if (maxY < height - 10) {
+			maxY = maxY + 10;
+		} else {
+			maxY = height - 1;
+		}
+
+		return ImageSizeOperations.CropToRect(original, minX, minY, maxX, maxY);
 
 	}
 
