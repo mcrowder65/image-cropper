@@ -27,6 +27,8 @@ public class Main {
 		try {
 			System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 			// PUT FUNCTION HERE WHICH ONE YOU WANT TO RUN
+
+			runTeamCImages();
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
