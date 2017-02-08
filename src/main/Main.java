@@ -14,7 +14,8 @@ public class Main {
 		MatWrapper grayScaledImage = ColorOperations.toGrayscale(input);
 		MatWrapper threshImage = ColorOperations.threshold(grayScaledImage);
 		MatWrapper blurredImage = NeighborhoodOperations.medianBlur(k, threshImage);
-		ImageComponent comp = NeighborhoodOperations.connectedComponents(blurredImage);
+		ImageComponent comp = NeighborhoodOperations.connectedComponents(blurredImage, blurredImage.height() / 2,
+				blurredImage.width() / 2);
 		MatWrapper maskedImage = NeighborhoodOperations.mask(comp, input);
 		MatWrapper grayScaledImage2 = ColorOperations.toGrayscale(maskedImage);
 		MatWrapper threshImage2 = ColorOperations.threshold(grayScaledImage2);
