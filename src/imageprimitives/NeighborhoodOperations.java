@@ -236,15 +236,11 @@ public class NeighborhoodOperations {
 					sum += matW.getPixel(z, (width / 2) - 35).getRGB();
 				}
 				float avg = ((float) sum / (float) 50);
-				System.out.println(sum);
 				if (sum > -2000000) {
 					break;
 				}
 			}
 		}
-
-		// System.out.println(minY);
-		System.out.println("-----------");
 
 		for (int j = height - 10; j > 0; j--) {
 			for (int i = startWidth; i < endWidth; i++) {
@@ -263,15 +259,12 @@ public class NeighborhoodOperations {
 				}
 
 				float avg = ((float) sum / (float) 50);
-				System.out.println(sum);
 				if (avg > -2000000) {
 					break;
 				}
 
 			}
 		}
-
-		// System.out.println(maxY);
 
 		for (int j = 10; j < (width / 2); j++) {
 			for (int i = startHeight; i < endHeight; i++) {
