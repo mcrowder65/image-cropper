@@ -19,7 +19,7 @@ public class Main {
 		MatWrapper grayScaledImage2 = ColorOperations.toGrayscale(maskedImage);
 		MatWrapper threshImage2 = ColorOperations.threshold(grayScaledImage2);
 		MatWrapper newImage = NeighborhoodOperations.secondCrop(threshImage2, maskedImage);
-		newImage.Write(name + "Second" + extension);
+		newImage.Write(name + "Output" + extension);
 	}
 
 	public static void main(String[] args) {
