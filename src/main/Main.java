@@ -26,9 +26,9 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
 			// PUT FUNCTION HERE WHICH ONE YOU WANT TO RUN
 
-			runTeamCImages();
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
@@ -72,5 +72,4 @@ public class Main {
 		crop("Team c images/resulting_from_crop9", ".jpg", 85);
 		crop("Team c images/result2 copy", ".jpg", 85);
 	}
-
 }
