@@ -94,18 +94,12 @@ public class NeighborhoodOperations {
 		List cols_to_change = new ArrayList();
 		for (int i = 0; i < image.width(); i++) {
 			int total = 0;
-			// System.out.println("----------------");
-			// System.out.println(i);
 			int count = 0;
 			for (int j = 0; j < image.height(); j++) {
 				total += image.getRGB(j, i);
 				count++;
 			}
-			if (i > 2350 && i < 2400) {
-				System.out.println(i);
-				System.out.println((total / count));
-			}
-			if ((total / count) > 10000) {
+			if ((total / count) < -10000) {
 				cols_to_change.add(i);
 			}
 		}
