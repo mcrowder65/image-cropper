@@ -13,7 +13,8 @@ public class Main {
 		MatWrapper input = new MatWrapper(name + extension);
 		MatWrapper grayScaledImage = ColorOperations.toGrayscale(input);
 		MatWrapper threshImage = ColorOperations.threshold(grayScaledImage);
-		MatWrapper blurredImage = NeighborhoodOperations.medianBlur(k, threshImage);
+		MatWrapper profiled = NeighborhoodOperations.profile(threshImage);
+		MatWrapper blurredImage = NeighborhoodOperations.medianBlur(k, profiled);
 		ImageComponent comp = NeighborhoodOperations.connectedComponents(blurredImage, blurredImage.height() / 2,
 				blurredImage.width() / 2);
 		MatWrapper maskedImage = NeighborhoodOperations.mask(comp, input);
@@ -26,6 +27,7 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+			crop("familySearchImages/crop3", ".jpg", 85);
 
 			// PUT FUNCTION HERE WHICH ONE YOU WANT TO RUN
 
