@@ -24,8 +24,12 @@ public class ImageSizeOperations {
 	 * @return Returns the new cropped image.
 	 */
 	public static MatWrapper CropToRect(MatWrapper input, int minx, int miny, int maxx, int maxy) {
-		Rect rectCrop = new Rect(minx, miny, maxx - minx, maxy - miny);
 
+		Rect rectCrop = new Rect(minx, miny, maxx - minx, maxy - miny);
+		return CropToRect(input, rectCrop);
+	}
+
+	public static MatWrapper CropToRect(MatWrapper input, Rect rectCrop) {
 		MatWrapper output = new MatWrapper(input, rectCrop);
 		return output;
 	}

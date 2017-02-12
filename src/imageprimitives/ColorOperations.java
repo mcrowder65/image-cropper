@@ -55,4 +55,30 @@ public class ColorOperations {
 		return output;
 	}
 
+	static final int SAMPLING_WIDTH = 4;
+	static final int SAMPLING_HEIGHT = 4;
+	static final int THRESHOLD_TOLERANCE = 20;
+
+	public static MatWrapper thresholdSampling(MatWrapper input) {
+		int startX = input.width() / 2;
+		int startY = input.height() / 2;
+
+		int totalR = 0;
+
+		for (int x = startX; x < startX + SAMPLING_WIDTH; x++) {
+			for (int y = startY; y < startY + SAMPLING_HEIGHT; y++) {
+				totalR += input.getPixel(y, x).getColor().getRed();
+			}
+		}
+
+		totalR = totalR / (SAMPLING_WIDTH * SAMPLING_HEIGHT);
+		assert totalR <= 255;
+
+		MatWrapper output = new MatWrapper(input);
+
+		// output = NeighborhoodOperations.medianBlur(87, output);
+		Imgproc.threshold(output.mat, output.mat, totalR - THRESHOLD_TOLERANCE, 255, Imgproc.THRESH_BINARY);
+		return output;
+	}
+
 }

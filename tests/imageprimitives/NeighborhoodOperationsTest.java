@@ -8,9 +8,12 @@ import java.nio.file.Paths;
 import org.junit.Before;
 import org.junit.Test;
 import org.opencv.core.Core;
+import org.opencv.core.Rect;
 
 import generic.ImageComponent;
 import generic.MatWrapper;
+import generic.MorphMask;
+import generic.Tools;
 
 public class NeighborhoodOperationsTest {
 
@@ -30,6 +33,7 @@ public class NeighborhoodOperationsTest {
 		mw.Write(path);
 	}
 
+	@Test
 	public void crop(String name, String extension, int k) {
 
 		MatWrapper input = new MatWrapper(name + extension);
@@ -64,6 +68,50 @@ public class NeighborhoodOperationsTest {
 		MatWrapper threshImage2 = ColorOperations.threshold(grayScaledImage2);
 		MatWrapper newImage = NeighborhoodOperations.secondCrop(threshImage2, maskedImage);
 		newImage.Write(name + "Second" + extension);
+	}
+
+	// @Test
+	public void ericsCrap() {
+
+		for (int n = 1; n <= 11; n++) {
+			String extension = ".jpg";
+			String inFolder = "familySearchImages/";
+			String outFolder = "intermediateOutput/";
+			String name = "Crop" + n;
+
+			int shrunkX = 200;
+			int shrunkY = 200;
+
+			MatWrapper input = new MatWrapper(inFolder + name + extension);
+			MatWrapper shrunk = ImageSizeOperations.resizeImage(input, shrunkX, shrunkY);
+			shrunk.Write(outFolder + name + "_Shrunk" + extension);
+			MatWrapper grayScaledImage = ColorOperations.toGrayscale(shrunk);
+
+			MatWrapper blurredImage = NeighborhoodOperations.medianBlur(15, grayScaledImage);
+			blurredImage.Write(outFolder + name + "_Blur" + extension);
+			MatWrapper threshImage = ColorOperations.thresholdSampling(blurredImage);
+			threshImage.Write(outFolder + name + "_Thresh" + extension);
+
+			threshImage = MorphologicalOperations.morphClose(threshImage, new MorphMask(11, 11, 5, 5, 255));
+			threshImage.Write(outFolder + name + "_MorphClose" + extension);
+			ImageComponent ccOuter = NeighborhoodOperations.connectedComponents(threshImage, 1, 1);
+			Rect croppingRect = NeighborhoodOperations.getInverseMaskCroppingRect(ccOuter, threshImage);
+			MatWrapper outerMasked = NeighborhoodOperations.inverseMask(ccOuter, threshImage);
+			outerMasked.Write(outFolder + name + "_OuterMask" + extension);
+
+			double xRatio = input.width() / ((double) shrunkX);
+			double yRatio = input.height() / ((double) shrunkY);
+			Rect scaledCroppingRect = Tools.ScaleRect(croppingRect, xRatio, yRatio);
+
+			MatWrapper finalImage = ImageSizeOperations.CropToRect(input, scaledCroppingRect);
+			finalImage.Write(outFolder + name + "_Final" + extension);
+		}
+
+		// ImageComponent comp =
+		// NeighborhoodOperations.connectedComponents(blurredImage);
+		// MatWrapper maskedImage = NeighborhoodOperations.mask(comp, input);
+		// maskedImage.Write(name + "Test" + extension);
+		// blurredImage.Write(name + "Test" + extension);
 	}
 
 	// @Test

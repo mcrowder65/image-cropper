@@ -2,6 +2,7 @@ package imageprimitives;
 
 import java.util.Stack;
 
+import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 
 import generic.ImageComponent;
@@ -117,11 +118,19 @@ public class NeighborhoodOperations {
 
 	public static MatWrapper inverseMask(ImageComponent component, MatWrapper original) {
 
-		int minX = 0;
+		int minX = inversemask_findMinX(component, original);
 		int minY = inversemask_findMinY(component, original);
-		int maxX = original.width() - 1;
+		int maxX = inversemask_findMaxX(component, original);
 		int maxY = inversemask_findMaxY(component, original);
-		return null; // TODO
+		return ImageSizeOperations.CropToRect(original, minX, minY, maxX, maxY);
+	}
+
+	public static Rect getInverseMaskCroppingRect(ImageComponent component, MatWrapper original) {
+		int minX = inversemask_findMinX(component, original);
+		int minY = inversemask_findMinY(component, original);
+		int maxX = inversemask_findMaxX(component, original);
+		int maxY = inversemask_findMaxY(component, original);
+		return new Rect(minX, minY, maxX - minX, maxY - minY);
 	}
 
 	public static MatWrapper mask2(ImageComponent component, MatWrapper original) {
@@ -205,6 +214,56 @@ public class NeighborhoodOperations {
 		}
 
 		return original.height() - 1;
+	}
+
+	private static int inversemask_findMinX(ImageComponent component, MatWrapper original) {
+
+		for (int col = 0; col < original.width(); col++) {
+			for (int row = 0; row < original.height(); row++) {
+				Pixel p = component.getPixel(row, col);
+				if (p == null) { // Found a non-cc, check pixels below to see if
+									// it was just noise
+					boolean justNoise = false;
+					for (int subCol = col; subCol < Math.min(original.width() - 1,
+							col + INVERSEMASK_TOLERANCE); subCol++) {
+						if (component.getPixel(row, subCol) != null) {
+							justNoise = true;
+							break;
+						}
+					}
+					if (!justNoise)
+						return col;
+
+				}
+			}
+		}
+
+		return 0;
+
+	}
+
+	private static int inversemask_findMaxX(ImageComponent component, MatWrapper original) {
+
+		for (int col = original.width() - 1; col > -1; col--) {
+			for (int row = 0; row < original.height(); row++) {
+				Pixel p = component.getPixel(row, col);
+				if (p == null) { // Found a non-cc, check pixels below to see if
+									// it was just noise
+					boolean justNoise = false;
+					for (int subCol = col; subCol > Math.max(0, col - INVERSEMASK_TOLERANCE); subCol--) {
+						if (component.getPixel(row, subCol) != null) {
+							justNoise = true;
+							break;
+						}
+					}
+					if (!justNoise)
+						return col;
+
+				}
+			}
+		}
+
+		return original.width() - 1;
 	}
 
 	public static MatWrapper secondCrop(MatWrapper matW, MatWrapper original) {
