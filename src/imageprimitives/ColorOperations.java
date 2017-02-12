@@ -60,6 +60,10 @@ public class ColorOperations {
 	static final int THRESHOLD_TOLERANCE = 20;
 
 	public static MatWrapper thresholdSampling(MatWrapper input) {
+		return thresholdSampling(input, THRESHOLD_TOLERANCE);
+	}
+
+	public static MatWrapper thresholdSampling(MatWrapper input, int tolerance) {
 		int startX = input.width() / 2;
 		int startY = input.height() / 2;
 
@@ -77,7 +81,7 @@ public class ColorOperations {
 		MatWrapper output = new MatWrapper(input);
 
 		// output = NeighborhoodOperations.medianBlur(87, output);
-		Imgproc.threshold(output.mat, output.mat, totalR - THRESHOLD_TOLERANCE, 255, Imgproc.THRESH_BINARY);
+		Imgproc.threshold(output.mat, output.mat, totalR - tolerance, 255, Imgproc.THRESH_BINARY);
 		return output;
 	}
 
