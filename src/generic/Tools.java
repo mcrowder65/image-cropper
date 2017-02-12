@@ -6,11 +6,18 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 
 import org.opencv.core.Mat;
+import org.opencv.core.Rect;
 
 /*
  * Static generic methods go here
  */
 public class Tools {
+
+	public static Rect ScaleRect(Rect rect, double xRatio, double yRatio) {
+		return new Rect((int) (rect.x * xRatio), (int) (rect.y * yRatio), (int) (rect.width * xRatio),
+				(int) (rect.height * yRatio));
+	}
+
 	private static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
 
 	/**
