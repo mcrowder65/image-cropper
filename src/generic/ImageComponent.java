@@ -29,4 +29,46 @@ public class ImageComponent {
 	public Pixel[][] getPixels() {
 		return pixels;
 	}
+
+	public int getMaxWidth(boolean inverse) {
+		int minX = Integer.MAX_VALUE;
+		int maxX = Integer.MIN_VALUE;
+		int maxWidth = 0;
+		for (int y = 0; y < pixels.length; y++) {
+			for (int x = 0; x < pixels[0].length; x++) {
+				if ((inverse && pixels[y][x] == null) || (!inverse && pixels[y][x] != null)) {
+					if (x > maxX)
+						maxX = x;
+					if (x < minX)
+						minX = x;
+				}
+			}
+			if (minX != Integer.MAX_VALUE && maxX != Integer.MIN_VALUE) {
+				if (maxX - minX + 1 > maxWidth)
+					maxWidth = maxX - minX + 1;
+			}
+		}
+		return maxWidth;
+	}
+
+	public int getMaxHeight(boolean inverse) {
+		int minY = Integer.MAX_VALUE;
+		int maxY = Integer.MIN_VALUE;
+		int maxHeight = 0;
+		for (int x = 0; x < pixels[0].length; x++) {
+			for (int y = 0; y < pixels.length; y++) {
+				if ((inverse && pixels[y][x] == null) || (!inverse && pixels[y][x] != null)) {
+					if (y > maxY)
+						maxY = y;
+					if (y < minY)
+						minY = y;
+				}
+			}
+			if (minY != Integer.MAX_VALUE && maxY != Integer.MIN_VALUE) {
+				if (maxY - minY + 1 > maxHeight)
+					maxHeight = maxY - minY + 1;
+			}
+		}
+		return maxHeight;
+	}
 }

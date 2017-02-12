@@ -8,9 +8,12 @@ import java.nio.file.Paths;
 import org.junit.Before;
 import org.junit.Test;
 import org.opencv.core.Core;
+import org.opencv.core.Rect;
 
 import generic.ImageComponent;
 import generic.MatWrapper;
+import generic.MorphMask;
+import generic.Tools;
 
 public class NeighborhoodOperationsTest {
 
@@ -19,7 +22,6 @@ public class NeighborhoodOperationsTest {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
 
-	@Test
 	public void testConnectedComponents() throws IOException {
 		String path = "testImages/ccsTest.jpg";
 		Path fileToDeletePath = Paths.get(path);
@@ -66,6 +68,67 @@ public class NeighborhoodOperationsTest {
 		newImage.Write(name + "Second" + extension);
 	}
 
+	@Test
+	public void ericsCrap() {
+
+		final int TOLERANCE_GROWTH_RATE = 5;
+		for (int n = 1; n <= 11; n++) {
+			int iteration = 0;
+			String extension = ".jpg";
+			String inFolder = "familySearchImages/";
+			String outFolder = "intermediateOutput/";
+			String name = "Crop" + n;
+
+			MatWrapper input = new MatWrapper(inFolder + name + extension);
+			input.Write(outFolder + name + "_Final" + extension);
+			do {
+				System.out.println(name + ", iteration " + ++iteration);
+
+				int shrunkX = 300;
+				int shrunkY = 300;
+
+				input = new MatWrapper(outFolder + name + "_Final" + extension);
+				MatWrapper shrunk = ImageSizeOperations.resizeImage(input, shrunkX, shrunkY);
+				shrunk.Write(outFolder + name + "_Shrunk" + extension);
+				MatWrapper grayScaledImage = ColorOperations.toGrayscale(shrunk);
+
+				MatWrapper blurredImage = NeighborhoodOperations.medianBlur(9, grayScaledImage);
+				blurredImage.Write(outFolder + name + "_Blur" + extension);
+				MatWrapper threshImage = ColorOperations.thresholdSampling(blurredImage, 40);
+				threshImage.Write(outFolder + name + "_Thresh" + extension);
+
+				int morphMaskDiameter = 17 - (iteration * 2);
+				if (morphMaskDiameter > 1) {
+					threshImage = MorphologicalOperations.dialate(threshImage, new MorphMask(morphMaskDiameter,
+							morphMaskDiameter, morphMaskDiameter / 2, morphMaskDiameter / 2, 255));
+					threshImage.Write(outFolder + name + "_Dialate" + extension);
+				}
+				ImageComponent ccOuter = NeighborhoodOperations.connectedComponents(threshImage, 1, 1);
+				int ccMaxHeight = ccOuter.getMaxHeight(true);
+				int matWHeight = threshImage.height();
+				if (ccMaxHeight < matWHeight / 2 || ccMaxHeight == matWHeight)
+					break;
+
+				Rect croppingRect = NeighborhoodOperations.getInverseMaskCroppingRect(ccOuter, threshImage);
+				MatWrapper outerMasked = NeighborhoodOperations.inverseMask(ccOuter, threshImage);
+				outerMasked.Write(outFolder + name + "_OuterMask" + extension);
+
+				double xRatio = input.width() / ((double) shrunkX);
+				double yRatio = input.height() / ((double) shrunkY);
+				Rect scaledCroppingRect = Tools.ScaleRect(croppingRect, xRatio, yRatio);
+
+				MatWrapper finalImage = ImageSizeOperations.CropToRect(input, scaledCroppingRect);
+				finalImage.Write(outFolder + name + "_Final" + extension);
+			} while (true);
+		}
+
+		// ImageComponent comp =
+		// NeighborhoodOperations.connectedComponents(blurredImage);
+		// MatWrapper maskedImage = NeighborhoodOperations.mask(comp, input);
+		// maskedImage.Write(name + "Test" + extension);
+		// blurredImage.Write(name + "Test" + extension);
+	}
+
 	// @Test
 	// public void testCrop1() {
 	// crop("familySearchImages/Crop1", ".jpg");
@@ -96,7 +159,6 @@ public class NeighborhoodOperationsTest {
 	// crop("familySearchImages/Crop6", ".jpg");
 	// }
 
-	@Test
 	public void testCrop7() {
 		crop("familySearchImages/Crop7", ".jpg", 85);
 
@@ -131,7 +193,7 @@ public class NeighborhoodOperationsTest {
 	// }
 
 	//
-	@Test
+
 	public void testCrop3() {
 		crop("familySearchImages/Crop3", ".jpg", 85);
 	}
