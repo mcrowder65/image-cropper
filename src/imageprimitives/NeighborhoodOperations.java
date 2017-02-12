@@ -1,5 +1,8 @@
 package imageprimitives;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 import org.opencv.imgproc.Imgproc;
@@ -83,6 +86,51 @@ public class NeighborhoodOperations {
 		}
 		return component;
 
+	}
+
+	public static MatWrapper profile(MatWrapper image) {
+
+		List cols_to_change = new ArrayList();
+		for (int i = 0; i < image.width(); i++) {
+			int total = 0;
+			// System.out.println("----------------");
+			// System.out.println(i);
+			int count = 0;
+			for (int j = 0; j < image.height(); j++) {
+				total += image.getRGB(j, i);
+				count++;
+			}
+			if (i > 2350 && i < 2400) {
+				System.out.println(i);
+				System.out.println((total / count));
+			}
+			if ((total / count) > 10000) {
+				cols_to_change.add(i);
+			}
+		}
+		return find_center(cols_to_change, image);
+	}
+
+	public static MatWrapper find_center(List cols_to_change, MatWrapper image) {
+		int startVal = (image.width() / 2) - (int) (image.width() * .25);
+		int endVal = (image.width() / 2) + (int) (image.width() * .25);
+		System.out.println(startVal);
+		System.out.println(endVal);
+		for (int i = 0; i < cols_to_change.size(); i++) {
+			int col = (int) cols_to_change.get(i);
+			if (col >= startVal && col <= endVal) {
+				int startHeight = image.height() / 2 - (int) (image.height() * .1);
+				int endHeight = image.height() / 2 + (int) (image.height() * .1);
+				for (int y = startHeight; y < endHeight; y++) {
+					try {
+						image.setColor(col, y, Color.white);
+					} catch (Error e) {
+						System.out.print(e);
+					}
+				}
+			}
+		}
+		return image;
 	}
 
 	public static MatWrapper mask(ImageComponent component, MatWrapper original) {
@@ -236,7 +284,7 @@ public class NeighborhoodOperations {
 					sum += matW.getPixel(z, (width / 2) - 35).getRGB();
 				}
 				float avg = ((float) sum / (float) 50);
-				if (sum > -2000000) {
+				if (sum > -900000) {
 					break;
 				}
 			}
