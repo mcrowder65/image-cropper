@@ -96,21 +96,91 @@ public class NeighborhoodOperations {
 			int total = 0;
 			int count = 0;
 			for (int j = 0; j < image.height(); j++) {
-				total += image.getRGB(j, i);
+				if (image.getRGB(j, i) < -1) {
+					total--;
+				} else {
+					total++;
+				}
 				count++;
 			}
-			if ((total / count) < -10000) {
+			float avg = ((float) total) / (count);
+			if (avg < -.55) {
 				cols_to_change.add(i);
 			}
 		}
 		return find_center(cols_to_change, image);
 	}
 
+	public static MatWrapper profile_cols(MatWrapper image, MatWrapper og) {
+		List col_prof = new ArrayList();
+		for (int i = 0; i < image.width(); i++) {
+			int total = 0;
+			int count = 0;
+			for (int j = 0; j < image.height(); j++) {
+				if (image.getRGB(j, i) < -1) {
+					total--;
+				} else {
+					total++;
+				}
+				count++;
+			}
+			float avg = ((float) total) / (count);
+			col_prof.add(avg);
+
+		}
+		return second_cropping(image, col_prof, og);
+	}
+
+	public static MatWrapper second_cropping(MatWrapper image, List col_prof, MatWrapper og) {
+		int minX = Integer.MAX_VALUE;
+		boolean hit_black = false;
+		boolean hit_white = false;
+		for (int i = 0; i < col_prof.size(); i++) {
+			while (hit_black == false) {
+				float sum = 0;
+				for (int j = i; j < i + 10; i++) {
+					sum += (float) col_prof.get(j);
+				}
+				float avg = sum / (float) 10;
+				System.out.println(avg);
+				if (avg < -.75) {
+					hit_black = true;
+
+				}
+			}
+			minX = i;
+			if (hit_black = true) {
+				break;
+			}
+		}
+
+		if (hit_black == true) {
+			for (int i = minX; i < col_prof.size(); i++) {
+				while (hit_white == false) {
+					float sum = 0;
+					for (int j = i; j < i + 10; i++) {
+						sum += (float) col_prof.get(j);
+					}
+					float avg = sum / (float) 10;
+					if (avg > 0) {
+						hit_white = true;
+					}
+				}
+				minX = i;
+				if (hit_white == true) {
+					break;
+				}
+			}
+		}
+		System.out.println(minX);
+
+		return ImageSizeOperations.CropToRect(og, minX, 0, og.width(), og.height());
+
+	}
+
 	public static MatWrapper find_center(List cols_to_change, MatWrapper image) {
 		int startVal = (image.width() / 2) - (int) (image.width() * .25);
 		int endVal = (image.width() / 2) + (int) (image.width() * .25);
-		System.out.println(startVal);
-		System.out.println(endVal);
 		for (int i = 0; i < cols_to_change.size(); i++) {
 			int col = (int) cols_to_change.get(i);
 			if (col >= startVal && col <= endVal) {
@@ -154,6 +224,8 @@ public class NeighborhoodOperations {
 				}
 			}
 		}
+		System.out.println("----------");
+		System.out.println(minX);
 		return ImageSizeOperations.CropToRect(original, minX, minY, maxX, maxY);
 
 	}
@@ -312,8 +384,8 @@ public class NeighborhoodOperations {
 
 		int height = matW.height();
 		int width = matW.width();
-		int startHeight = (height / 2) - 100;
-		int endHeight = (height / 2) + 100;
+		int startHeight = (height / 2) - 125;
+		int endHeight = (height / 2) + 125;
 		int startWidth = (width / 2) - (int) (0.15 * width);
 		int endWidth = (width / 2) + (int) (0.15 * width);
 
@@ -333,13 +405,21 @@ public class NeighborhoodOperations {
 			if (minY != 0) {
 				int sum = 0;
 				for (int z = j; z < (j + 50); z++) {
+					if (matW.getPixel(z, (width / 2) + 176).getRGB() < -1) {
+						sum--;
+					} else {
+						sum++;
+					}
 
-					sum += matW.getPixel(z, (width / 2) - 35).getRGB();
+					// sum += matW.getPixel(z, (width / 2) - 35).getRGB();
 				}
 				float avg = ((float) sum / (float) 50);
-				if (sum > -900000) {
+				if (avg > 0) {
 					break;
 				}
+				// if (sum > -900000) {
+				// break;
+				// }
 			}
 		}
 
@@ -354,13 +434,21 @@ public class NeighborhoodOperations {
 			if (maxY != height) {
 				int sum = 0;
 				for (int z = j; z > (j - 50); z--) {
-					int top_val = 0;
-
-					sum += matW.getPixel(z, (width / 2) - 35).getRGB();
+					// int top_val = 0;
+					//
+					// sum += matW.getPixel(z, (width / 2) - 35).getRGB();
+					if (matW.getPixel(z, (width / 2) - 150).getRGB() < -1) {
+						sum--;
+					} else {
+						sum++;
+					}
 				}
 
 				float avg = ((float) sum / (float) 50);
-				if (avg > -2000000) {
+				// if (avg > -2000000) {
+				// break;
+				// }
+				if (avg > 0) {
 					break;
 				}
 
@@ -379,10 +467,18 @@ public class NeighborhoodOperations {
 			if (minX != 0) {
 				int sum = 0;
 				for (int z = j; z < (j + 50); z++) {
-					sum += matW.getPixel(startHeight, z).getRGB();
+					// sum += matW.getPixel(startHeight, z).getRGB();
+					if (matW.getPixel(startHeight, z).getRGB() < -1) {
+						sum--;
+					} else {
+						sum++;
+					}
 				}
 				float avg = ((float) sum / (float) 50);
-				if (sum > -100000000) {
+				// if (sum > -100000000) {
+				// break;
+				// }
+				if (avg > 0) {
 					break;
 				}
 			}
@@ -399,11 +495,19 @@ public class NeighborhoodOperations {
 			if (maxX != width) {
 				int sum = 0;
 				for (int z = j; z > (j - 50); z--) {
-					sum += matW.getPixel(startHeight, z).getRGB();
+					// sum += matW.getPixel(startHeight, z).getRGB();
+					if (matW.getPixel(startHeight, z).getRGB() < -1) {
+						sum--;
+					} else {
+						sum++;
+					}
 				}
 
 				float avg = ((float) sum / (float) 50);
-				if (avg > -2000000) {
+				// if (avg > -2000000) {
+				// break;
+				// }
+				if (avg > 0) {
 					break;
 				}
 
