@@ -13,8 +13,4 @@ Right click on image-cropper in project/package explorer -> Build path -> config
  
 Under libraries, click add library, User library, then OpenCV<br>
 
-
-
-REPORT<br>
-
-http://matthewjcrowder.com/ImageCroppingReport.pdf
+http://matthewjcrowder.com/ImageCroppingReport.pdf<br>
